@@ -6,16 +6,30 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var db = mongoose.connect('mongodb://pmulders91:Kloppop121!@ds023438.mlab.com:23438/paul-pokedex');
+mongoose.connect('mongodb://paul:paultje121@ds023438.mlab.com:23438/paul-pokedex');
+// Data Access Layer
+// /Data Access Layer
 
 // Models
 require('./models/user')(mongoose);
+require('./models/fillTestData')(mongoose);
 // /Models
 
-// Routes
-var routes = require('./routes/index')(mongoose);
-// /Routes
+function handleError(req, res, statusCode, message){
+    console.log();
+    console.log('-------- Error handled --------');
+    console.log('Request Params: ' + JSON.stringify(req.params));
+    console.log('Request Body: ' + JSON.stringify(req.body));
+    console.log('Response sent: Statuscode ' + statusCode + ', Message "' + message + '"');
+    console.log('-------- /Error handled --------');
+    res.status(statusCode);
+    res.json(message);
+};
 
+// Routes
+var routes = require('./routes/index');
+var users = require('./routes/users')(mongoose, handleError);
+// /Routes
 
 var app = express();
 
@@ -32,15 +46,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/users', users);
 
-/// catch 404 and forwarding to error handler
+// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-/// error handlers
+// error handlers
 
 // development error handler
 // will print stacktrace
@@ -63,5 +78,6 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
 
 module.exports = app;
