@@ -17,6 +17,6 @@
     "underscore": "*",
     "async": "*",
     "mongodb": "1.4",
-    "monk": "~1.0.1
+    "monk": "~1.0.1"
   }
 }
