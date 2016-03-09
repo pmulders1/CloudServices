@@ -3,3 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  
+    #wrapper
+        // ADD USER
+        h2 Add User
+        #addUser
+            fieldset
+                input#inputFirstName(type='text', placeholder='First name')
+                br
+                input#inputLastName(type='text', placeholder='Last name')
+                br
+                button#btnAddUser Add User
+        // /ADD USER

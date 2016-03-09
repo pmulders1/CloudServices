@@ -1,3 +1,11 @@
+/*
+    Wat kunnen we het beste doen met die locaties, alles opslaan of alleen doorsturen?
+    Response message is leeg, kunnen we die nog sturen op een of andere manier?
+    Heruko app doet het niet
+*/
+
+
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,8 +20,8 @@ mongoose.connect('mongodb://paul:paultje121@ds023438.mlab.com:23438/paul-pokedex
 
 // Models
 require('./models/location')(mongoose);
-require('./models/race')(mongoose);
 require('./models/participant')(mongoose);
+require('./models/race')(mongoose);
 require('./models/fillTestData')(mongoose);
 // /Models
 
@@ -30,7 +38,9 @@ function handleError(req, res, statusCode, message){
 
 // Routes
 var routes = require('./routes/index');
-//var users = require('./routes/users')(mongoose, handleError);
+var races = require('./routes/races')(mongoose, handleError);
+var locations = require('./routes/locations')(mongoose, handleError);
+var participants = require('./routes/participants')(mongoose, handleError);
 // /Routes
 
 var app = express();
@@ -48,7 +58,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/users', users);
+app.use('/races', races);
+app.use('/participants', participants);
+app.use('/locations', locations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
