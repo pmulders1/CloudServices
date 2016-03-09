@@ -11,7 +11,9 @@ mongoose.connect('mongodb://paul:paultje121@ds023438.mlab.com:23438/paul-pokedex
 // /Data Access Layer
 
 // Models
-require('./models/user')(mongoose);
+require('./models/location')(mongoose);
+require('./models/race')(mongoose);
+require('./models/participant')(mongoose);
 require('./models/fillTestData')(mongoose);
 // /Models
 
@@ -28,7 +30,7 @@ function handleError(req, res, statusCode, message){
 
 // Routes
 var routes = require('./routes/index');
-var users = require('./routes/users')(mongoose, handleError);
+//var users = require('./routes/users')(mongoose, handleError);
 // /Routes
 
 var app = express();
@@ -46,7 +48,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
