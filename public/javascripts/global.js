@@ -31,21 +31,15 @@ function addUser(event) {
             type: 'POST',
             data: newUser,
             url: '/participants/addParticipant',
-            dataType: 'JSON'
-        }).done(function( data, status ) {
-            console.log(data);
-            console.log(status);
-            // Check for successful (blank) response
-            if (response.message) {
+            dataType: 'JSON',
+            success: function( data, status ) {
 
                 // Clear the form inputs
-               $('#addUser fieldset input').val('');
-            }
-            else {
+                $('#addUser fieldset input').val('');
 
-                // If something goes wrong, alert the error message that our service returned
-                alert('Error: ' + response.message);
-
+            },
+            error: function(err){
+                console.log('Error: ' + err.message + ' ' + err.statusCode);
             }
         });
     }

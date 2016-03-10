@@ -16,6 +16,7 @@ function fillTestRaces(callback){
 	var testData = [
 		{
 			_id: raceId,
+			name: 'TestRace', 
 			hasStarted: true,
 			locations: [locationId],
 			participants: [participantId]

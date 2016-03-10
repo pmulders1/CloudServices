@@ -1,7 +1,8 @@
 /*
-    Wat kunnen we het beste doen met die locaties, alles opslaan of alleen doorsturen?
-    Response message is leeg, kunnen we die nog sturen op een of andere manier?
-    Heruko app doet het niet
+    Hoe kunnen we het object van de functie ErrorHandler uitlezen? Races.js
+    Socket io problemen
+    Hoe kunnen we de teruggestuurde json mooier maken OCD!!!
+    Kun je in je public/javascripts ook met Schema objecten werken? Nu moeten we posts versturen? Is het mogelijk om dit wat OOPer te maken
 */
 
 

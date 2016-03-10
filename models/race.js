@@ -5,7 +5,8 @@ function init(mongoose){
 	ObjectId = schema.ObjectId;
 
 	schema = mongoose.Schema({
-		hasStarted : Boolean,
+		name: {type: String, unique: true},
+		hasStarted : {type: Boolean, default:false },
 		locations: [{
 			type: mongoose.Schema.Types.ObjectId, ref: "Location"
 		}],

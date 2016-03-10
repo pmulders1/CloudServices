@@ -23,9 +23,12 @@ function getLocations(req, res){
 		res.json(data);
 	});
 }
-
 // Routing
-router.route('/')
+router.get('/', function(req, res, next) {
+  res.render('locations', { title: 'Express' });
+});
+// Routing
+router.route('/locations')
 	.get(getLocations);
 
 router.route('/:id')

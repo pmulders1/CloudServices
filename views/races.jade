@@ -1,0 +1,47 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to all the races
+
+    // Wrapper
+    #wrapper
+        #containerCol4
+            // ADD RACES
+            h2 Add Race
+            #addRace
+                fieldset
+                    strong Name:
+                    |  <input id='raceName'></input>
+                    br
+                    button#btnAddRace Add Race
+            // /ADD RACES
+        #containerCol4
+            // RACES LIST
+            h2 Races List
+            #racesList.listView
+                table
+                    thead
+                        th Race Name
+                        th Has started
+                        th Delete?
+                    tbody
+            // /RACES LIST
+        #containerCol4
+            #roomParticipants
+                h2 Participants List
+                // PARTICIPANTS LIST
+                #participantsList.listView
+                    table
+                        thead
+                            th Name
+                            th Delete?
+                        tbody
+                // /PARTICIPANTS LIST
+                ul#participants
+                form(action='')
+                    select(id="selectParticipants")
+                        option() Select Participant
+                    input(type='hidden',id='raceId')
+                    button#joinRace Participate
+    // /WRAPPER
