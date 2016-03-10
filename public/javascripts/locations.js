@@ -11,7 +11,7 @@ function getLocation(){
 
 	$.ajax({
 		type: 'GET',
-		url: 'http://maps.googleapis.com/maps/api/geocode/json?address=' + location + province + ', Nederland',
+		url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location + province + ', Nederland',
 		success:function(data){
 			console.log(data);
 			var tableContent = '';
