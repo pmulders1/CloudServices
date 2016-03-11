@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var Race = mongoose.model('Race');
+
+
+
 // Userlist data array for filling in info box
 var racesListData = [];
 // DOM Ready =============================================================

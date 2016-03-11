@@ -19,7 +19,8 @@ function getRaces(req, res){
 		if(req.params.id){
 			data = data[0];
 		}
-		res.json(data);
+		res.setHeader('Content-Type', 'application/json');
+		res.send(JSON.stringify(data, null, 4));
 	});
 }
 

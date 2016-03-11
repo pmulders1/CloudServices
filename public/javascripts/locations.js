@@ -33,12 +33,14 @@ function getLocation(){
 
 function getPlaces(){
 	var latlng =  $(this).attr('rel');
-
+	console.log(latlng);
+	var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBlZETTCSIdZg7V3ofgZswDcSrfvBdViPM&location='+ latlng+ '&radius=1000&type=cafe';
+	console.log(url);
 	$.ajax({
 		type: 'GET',
-    	crossDomain: true,
-		      //https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBlZETTCSIdZg7V3ofgZswDcSrfvBdViPM&location=51.697816,5.303675&radius=1000&type=cafe
-		url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBlZETTCSIdZg7V3ofgZswDcSrfvBdViPM&location=51.697816,5.303675&radius=1000&type=cafe',
+		url: url,
+	    crossDomain: true,
+	    dataType: 'json',
 		success:function(data){
 			console.log(data);
 		},
