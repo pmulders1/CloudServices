@@ -1,10 +1,6 @@
-var mongoose = require('mongoose');
-var Race = mongoose.model('Race');
-
-
-
 // Userlist data array for filling in info box
 var racesListData = [];
+var selectedRace;
 // DOM Ready =============================================================
 $(document).ready(function() {
 
@@ -21,6 +17,14 @@ $(document).ready(function() {
     // Delete User link click
     $('#raceList table tbody').on('click', 'td a.linkdeleterace', deleteRace);
 
+    socket.on('race', function(race){
+        populateRacesTable()
+    });
+    socket.on('participant', function(race){
+        if(selectedRace === race.raceid){
+            showRaceInfo();
+        }
+    });
 });
 
 // Functions =============================================================
@@ -53,15 +57,17 @@ function populateRacesTable() {
 // Show User Info
 function showRaceInfo(event) {
     // Prevent Link from Firing
-    event.preventDefault();
-
+    if(event){
+        event.preventDefault();
+    }
     // Retrieve username from link rel attribute
     var thisRaceName = $(this).attr('rel');
-    
+    console.log(thisRaceName);
     // Get Index of object based on id value
     var arrayPosition = racesListData.map(function(arrayItem) { return arrayItem.name; }).indexOf(thisRaceName);
     // Get our User Object
     var thisRaceObject = racesListData[arrayPosition];
+    selectedRace = thisRaceObject._id;
     //Populate Info Box
     $('#raceId').val(thisRaceObject._id);
     var tableContent = '';
@@ -88,7 +94,7 @@ function showRaceInfo(event) {
     });
 };
 
-function getRaces(id){
+function getRace(id){
     
 }
 
@@ -107,7 +113,8 @@ function addRace(event) {
 
         // If it is, compile all user info into one object
         var newRace = {
-            'name': $('#addRace fieldset input#raceName').val()
+            'name': $('#addRace fieldset input#raceName').val(),
+            'hasStarted': false
         }
 
         // Use AJAX to post the object to our adduser service
@@ -123,6 +130,8 @@ function addRace(event) {
 
                 // Update the table
                 populateRacesTable();
+
+                socket.emit('race', newRace);
             },
             error: function(err){
                 console.log('Error: ' + err);
@@ -149,8 +158,7 @@ function joinRace(event){
         data: raceData,
         dataType: 'JSON',
         success: function( data, status ) {
-
-            console.log('hi');
+            socket.emit('participant', raceData)
         },
         error: function(err){
             console.log('Error: ' + err);

@@ -1,11 +1,9 @@
 /*
-    Hoe kunnen we het object van de functie ErrorHandler uitlezen? Races.js
-    Socket io problemen
-    Hoe kunnen we de teruggestuurde json mooier maken OCD!!!
-    Kun je in je public/javascripts ook met Schema objecten werken? Nu moeten we posts versturen? Is het mogelijk om dit wat OOPer te maken
+    in socket.js staan 2 functies die nooit gebruikt worden. wat was daar de bedoeling van want zo zouden we wel willen werken.
+    Nogmaals hoe halen we de data op via de view (volgens ons vorige keer misverstand)
+    races/
+        put delete get
 */
-
-
 
 var express = require('express');
 var path = require('path');

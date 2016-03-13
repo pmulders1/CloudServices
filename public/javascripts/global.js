@@ -5,7 +5,6 @@ $(document).ready(function() {
 
     // Add User button click
     $('#btnAddUser').on('click', addUser);
-
 });
 
 // Add User

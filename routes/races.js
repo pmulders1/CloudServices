@@ -20,7 +20,7 @@ function getRaces(req, res){
 			data = data[0];
 		}
 		res.setHeader('Content-Type', 'application/json');
-		res.send(JSON.stringify(data, null, 4));
+		res.send(JSON.stringify(data, null, '\t'));
 	});
 }
 
@@ -36,8 +36,6 @@ function addRace(req, res){
 }
 
 function joinRace(req, res){
-
-
 	Race.findByIdAndUpdate(
 	    req.body.raceid,
 	    {
@@ -47,8 +45,8 @@ function joinRace(req, res){
 	    	safe: true, upsert: true, new : true
 	    },
 	    function(err, model) {
-	        console.log(err);
-	        console.log(model);
+	        res.status(201);
+	        res.json(model);
 	    }
 	);
 }
