@@ -1,28 +1,42 @@
 <h2>User Management</h2>
+<div class="row">
+	<div class="col-md-8">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody id="userList">
+			</tbody>
+		</table>
+	</div>
 
-<table class="table table-striped" id="userList">
-	<thead>
-	  <tr>
-	    <th>Firstname</th>
-	    <th>Lastname</th>
-	    <th>Email</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  <tr>
-	    <td>John</td>
-	    <td>Doe</td>
-	    <td>john@example.com</td>
-	  </tr>
-	  <tr>
-	    <td>Mary</td>
-	    <td>Moe</td>
-	    <td>mary@example.com</td>
-	  </tr>
-	  <tr>
-	    <td>July</td>
-	    <td>Dooley</td>
-	    <td>july@example.com</td>
-	  </tr>
-	</tbody>
-</table>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label for="usr">Firstname:</label>
+			<input type="text" class="form-control" id="upFirstname">
+		</div>
+		<div class="form-group">
+			<label for="pwd">Lastname:</label>
+			<input type="password" class="form-control" id="upLastname">
+		</div>
+		<button type="button" class="btn btn-primary">Update</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4" id="" >
+		<div class="form-group">
+			<label for="usr">Firstname:</label>
+			<input type="text" class="form-control" id="crFirstname">
+		</div>
+		<div class="form-group">
+			<label for="pwd">Lastname:</label>
+			<input type="password" class="form-control" id="crLastname">
+		</div>
+		<button type="button" class="btn btn-primary" id="crUser">Create New</button>
+	</div>
+</div>

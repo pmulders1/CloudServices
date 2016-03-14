@@ -4,6 +4,16 @@ function init(mongoose){
 		firstname : { type: String, required: true},
 		lastname : { type: String, required: true}
 	});
+
+	schema.statics.get = function(options){
+		return this.find(options.filter).exec(options.callback);
+	};
+
+
+	schema.statics.add = function(options){
+		options.data.save(options.callback)
+	}
+
 	mongoose.model('User', schema);
 }
 
