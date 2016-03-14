@@ -1,3 +1,6 @@
+<div class="row">
+	<div class="alert hidden" role="alert" id="messageUser"></div>
+</div>
 <h2>User Management</h2>
 <div class="row">
 	<div class="col-md-8">
@@ -16,14 +19,15 @@
 
 	<div class="col-md-4">
 		<div class="form-group">
-			<label for="usr">Firstname:</label>
+			<label for="upFirstname">Firstname:</label>
 			<input type="text" class="form-control" id="upFirstname">
 		</div>
 		<div class="form-group">
-			<label for="pwd">Lastname:</label>
-			<input type="password" class="form-control" id="upLastname">
+			<label for="upLastname">Lastname:</label>
+			<input type="text" class="form-control" id="upLastname">
 		</div>
-		<button type="button" class="btn btn-primary">Update</button>
+		<input type="hidden" id="upId">
+		<button type="button" class="btn btn-primary" id="updateUser">Update</button>
 	</div>
 </div>
 
@@ -35,7 +39,7 @@
 		</div>
 		<div class="form-group">
 			<label for="pwd">Lastname:</label>
-			<input type="password" class="form-control" id="crLastname">
+			<input type="text" class="form-control" id="crLastname">
 		</div>
 		<button type="button" class="btn btn-primary" id="crUser">Create New</button>
 	</div>
