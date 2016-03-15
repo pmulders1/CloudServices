@@ -6,11 +6,11 @@ function initIo(){
         
         console.log('connected');
         
-        socket.on('crUser', function(data){
+        socket.on('updated', function(data){
             
             console.log(data);
             
-            io.emit('crUser', data);
+            io.emit('updated', data);
             
             socket.on('disconnect', function(){
                 console.log('user disconnected');

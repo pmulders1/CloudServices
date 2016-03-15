@@ -18,24 +18,8 @@ function init(mongoose){
 		options.data.remove(options.callback)
 	}
 
-	schema.static.update = function(options){
-		console.log(options.data);
-		this.findByIdAndUpdate(
-		    options.data._id,
-		    {
-		    	$set: {
-		    		firstname: options.data.firstname,
-		    		lastname: options.data.lastname
-		    	}
-		    },
-		    {
-		    	safe: true, upsert: true, new : true
-		    },
-		    function(err, model) {
-		        console.log(err);
-		        console.log(model);
-		    }
-		);
+	schema.statics.update = function(options){
+		this.where('_id', options.data._id).update({$set: {firstname: options.data.firstname, lastname: options.data.lastname}}, options.callback);
 	};
 
 	mongoose.model('User', schema);
