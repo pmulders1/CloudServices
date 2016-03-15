@@ -20,7 +20,7 @@ function init(mongoose){
 
 	schema.statics.update = function(options){
 		this.where('_id', options.data._id).update({$set: {firstname: options.data.firstname, lastname: options.data.lastname}}, options.callback);
-	};
+	}
 
 	mongoose.model('User', schema);
 }

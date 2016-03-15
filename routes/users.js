@@ -46,25 +46,12 @@ function updateUsers(req, res){
 	});
 }
 
-function deleteUser(req, res){
-	User.remove({
-		data: req.body,
-		callback: function(err, data){
-			if(err){ return handleError(req, res, 500, err); }
-			else {
-				res.status(201);
-				res.json(data);
-			}
-		}
-	});
-}
-
 // Routing
 router.get('/', function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
 
-router.route('/:id').get(getUsers).put(updateUsers).delete(deleteUser);
+router.route('/:id').get(getUsers).put(updateUsers);
 
 router.route('/all').get(getUsers);
 

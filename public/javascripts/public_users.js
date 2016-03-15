@@ -23,18 +23,15 @@ function populateTable(){
 			tableContent += '<tr>';
             tableContent += '<td>' + this.firstname + '</td>';
 			tableContent += '<td>' + this.lastname + '</td>';
-            tableContent += '<td><button type="button" class="btn btn-default btn-sm right5"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>';
+            tableContent += '<td><a href="#" class="btn btn-default btn-sm right5" id="upUser" rel="' + this._id + '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><a href="#" class="btn btn-default btn-sm" id="deUser" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
             tableContent += '</tr>';
 		});
-
 		$('#userList').html(tableContent);
 	});
 }
 
 function createUser(event){
 	event.preventDefault();
-
-	var errorCount = 0;
 
 	var data = {
 		'firstname': $('#crFirstname').val(),
@@ -98,7 +95,6 @@ function updateUser(event){
 
 function deleteUser(event){
 	event.preventDefault();
-
 	console.log("delete")
 	$.ajax({
 		type: 'DELETE',
