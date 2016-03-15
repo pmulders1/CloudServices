@@ -1,5 +1,4 @@
 /*
-  In public_global.js-> Waarom moeten we utilities toevoegen?
   Bij de sockets? -> Moeten we een user bijvoorbeeld toevoegen of mogen we heel de lijst opnieuw ophalen?
                   -> Bij users PopulateTable als je createuser uitvoerd wacht die op de socket.on/emit.
 */

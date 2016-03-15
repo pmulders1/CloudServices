@@ -16,3 +16,11 @@ a {
 .show{
 	display: inherit;
 }
+
+.messageBox{
+
+}
+.messageBox:hover{
+	text-decoration: none!important;
+	color: #777!important;
+}

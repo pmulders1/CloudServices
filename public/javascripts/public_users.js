@@ -8,7 +8,8 @@ $(document).ready(function(){
 	$('#userList').on('click', 'td a#upUser', showUser);
 	$('#userList').on('click', 'td a#deUser', deleteUser);
 	$('#updateUser').on('click', updateUser);
-	socket.on('crUser', function(user){
+	socket.on('updated', function(data){
+		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
 		populateTable();
 	});
 });
@@ -42,12 +43,15 @@ function createUser(event){
 		url: '/users/add',
 		dataType: 'JSON',
 		success:function(data){
-			socket.emit('crUser', data);
-			utilities.showMessageBox('alert-success', '#messageUser', 'User is created!');
-			$('#crFirstname').val('');
-			$('#crLastname').val('');
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'User is created!'
+			}
+			socket.emit('updated', data);
+			$('#createForm').trigger('reset');
 		}, error: function(err){
-			utilities.showMessageBox('alert-danger', '#messageUser', err.responseJSON.message);
+			utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
 		}
 	});
 }
@@ -75,14 +79,16 @@ function updateUser(event){
         data: data,
         dataType: 'JSON',
         success: function( data, status ) {
-			socket.emit('crUser', data);
-			utilities.showMessageBox('alert-success', '#messageUser', 'User is updated!');
-			$('#upFirstname').val('');
-			$('#upLastname').val('');
-			$('#upId').val('');
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'User is updated!'
+			}
+			socket.emit('updated', data);
+			$('#updateForm').trigger('reset');
         },
         error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageUser', err.responseJSON.message);
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
         }
     });
 }

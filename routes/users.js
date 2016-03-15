@@ -33,12 +33,12 @@ function addUser(req, res){
 }
 
 function updateUsers(req, res){
-	console.log(req.body);
 	User.update({
 		data: req.body,
 		callback: function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
+				console.log('hi');
 				res.status(201);
 				res.json(data);
 			}
