@@ -12,7 +12,8 @@ function getUsers(req, res){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
 				res.status(201);
-				res.json(data);
+				res.setHeader('Content-Type', 'application/json');
+				res.send(JSON.stringify(data, null, '\t'));
 			}
 		}
 	});
@@ -31,10 +32,26 @@ function addUser(req, res){
 	});
 }
 
+function updateUsers(req, res){
+	console.log(req.body);
+	User.update({
+		data: req.body,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
+
+router.route('/:id').get(getUsers).put(updateUsers);
 
 router.route('/all').get(getUsers);
 

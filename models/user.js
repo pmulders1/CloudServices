@@ -14,6 +14,26 @@ function init(mongoose){
 		options.data.save(options.callback)
 	}
 
+	schema.static.update = function(options){
+		console.log(options.data);
+		this.findByIdAndUpdate(
+		    options.data._id,
+		    {
+		    	$set: {
+		    		firstname: options.data.firstname,
+		    		lastname: options.data.lastname
+		    	}
+		    },
+		    {
+		    	safe: true, upsert: true, new : true
+		    },
+		    function(err, model) {
+		        console.log(err);
+		        console.log(model);
+		    }
+		);
+	};
+
 	mongoose.model('User', schema);
 }
 
