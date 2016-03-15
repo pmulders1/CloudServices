@@ -14,6 +14,10 @@ function init(mongoose){
 		options.data.save(options.callback)
 	}
 
+	schema.statics.delete = function(options){
+		options.data.remove(options.callback)
+	}
+
 	schema.static.update = function(options){
 		console.log(options.data);
 		this.findByIdAndUpdate(
