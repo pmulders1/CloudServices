@@ -32,13 +32,25 @@ function addUser(req, res){
 	});
 }
 
-function updateUsers(req, res){
+function updateUser(req, res){
 	User.update({
 		data: req.body,
 		callback: function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
-				console.log('hi');
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
+function deleteUser(req, res){
+	User.delete({
+		_id: req.params.id,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
 				res.status(201);
 				res.json(data);
 			}
@@ -51,7 +63,7 @@ router.get('/', function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
 
-router.route('/:id').get(getUsers).put(updateUsers);
+router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
 
 router.route('/all').get(getUsers);
 

@@ -9,13 +9,12 @@ function init(mongoose){
 		return this.find(options.filter).exec(options.callback);
 	};
 
-
 	schema.statics.add = function(options){
 		options.data.save(options.callback)
 	}
 
 	schema.statics.delete = function(options){
-		options.data.remove(options.callback)
+		this.remove({_id: options._id}, options.callback);
 	}
 
 	schema.statics.update = function(options){

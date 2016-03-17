@@ -49,7 +49,7 @@ function createUser(event){
 				message: 'User is created!'
 			}
 			socket.emit('updated', data);
-			$('#createForm').trigger('reset');
+			$('#createForm').find('input:text').val('');
 		}, error: function(err){
 			utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
 		}
@@ -85,7 +85,7 @@ function updateUser(event){
 				message: 'User is updated!'
 			}
 			socket.emit('updated', data);
-			$('#updateForm').trigger('reset');
+			$('#updateForm').find('input:text').val('');
         },
         error: function(err){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
@@ -95,17 +95,14 @@ function updateUser(event){
 
 function deleteUser(event){
 	event.preventDefault();
-	console.log("delete")
 	$.ajax({
-		type: 'DELETE',
-		data: data,
+		type: 'delete',
 		url: '/users/' + $(this).attr('rel'),
-		dataType: 'JSON',
 		success: function( data, status ){
 			data.message = {
 				classType: 'alert-success',
 				selector: '#messageBox',
-				message: 'User is updated!'
+				message: 'User is removed!'
 			}
 			socket.emit('updated', data);
 		},
