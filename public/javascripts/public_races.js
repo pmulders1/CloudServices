@@ -4,7 +4,7 @@ $(document).ready(function(){
 	populateTable();
 
 	$('#crRace').on('click', createRace);
-
+	$('#raceList').on('click', 'td a#upRace', showRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
 		populateTable();
@@ -52,4 +52,14 @@ function createRace(event){
 			utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
 		}
 	});
+}
+
+function showRace(event){
+    var _id = $(this).attr('rel');
+    var arrayPosition = raceList.map(function(arrayItem) { return arrayItem._id; }).indexOf(_id);
+    var race = raceList[arrayPosition];
+
+    $('#upName').val(race.name);
+    $('#upStarted').attr('checked',race.hasStarted);
+    $('#upId').val(race._id);
 }
