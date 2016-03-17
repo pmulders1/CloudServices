@@ -62,7 +62,7 @@ function showRace(event){
     var race = raceList[arrayPosition];
 
     $('#upName').val(race.name);
-    $('#upStarted').attr('checked',race.hasStarted);
+    $('#upStarted').prop('checked',race.hasStarted);
     $('#upId').val(race._id);
 }
 
@@ -73,7 +73,6 @@ function updateRace(event){
             'name': $('#upName').val(),
             'hasStarted': $('#upStarted').is(':checked')
     }
-    console.log(data.hasStarted);
     $.ajax({
         type: 'PUT',
         url: '/races/' + data._id,
@@ -87,7 +86,7 @@ function updateRace(event){
 			}
 			socket.emit('updated', data);
 			$('#updateForm').find('input:text').val('');
-			$('#upStarted').attr('checked', false);
+			$('#upStarted').prop('checked', false);
         },
         error: function(err){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
