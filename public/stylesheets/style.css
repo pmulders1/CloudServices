@@ -1,26 +1,7 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.checkboxsize{
+	width: 20px;
+	height: 20px;
 }
-
-a {
-  color: #00B7FF;
-}
-
-.right5{
-	margin-right: 10px!important;
-}
-.hidden{
-	display: none;
-}
-.show{
-	display: inherit;
-}
-
-.messageBox{
-
-}
-.messageBox:hover{
-	text-decoration: none!important;
-	color: #777!important;
+.lineHeight30{
+	line-height: 30px;
 }
