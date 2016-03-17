@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // Data Access Layer
-mongoose.connect('mongodb://paul:paultje121@ds023438.mlab.com:23438/paul-pokedex');
+mongoose.connect('mongodb://mdb5:mdb5@ds015859.mlab.com:15859/cloudservicesmbd5');
 // /Data Access Layer
 
 // Models
