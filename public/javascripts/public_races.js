@@ -1,19 +1,26 @@
 var raceList = [];
-
 $(document).ready(function(){
 	populateTable();
 
 	$('#crRace').on('click', createRace);
 	$('#raceList').on('click', 'td a#upRace', showRace);
 	$('#raceList').on('click', 'td a#deRace', deleteRace);
+	$('#raceParticipantsList').on('click', 'td a#deParticipantRace', deleteParticipantRace);
 	$('#updateRace').on('click', updateRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
 		populateTable();
+		
+		console.log("message Type: " + data.message.type);
+		console.log("socketID: " + data.message.id + ", elementID: " + $('#upId').val());
+		if(data.message.type === 'participant' && $('#upId').val() === data.message.id){
+			populateTable();
+			populateParticipantTable(data.message.id);
+		}
 	});
 });
 
-function populateTable(){
+function populateTable(callBack){
 	var tableContent = '';
 
 	$.getJSON('/races/all', function(data){
@@ -28,6 +35,22 @@ function populateTable(){
             tableContent += '</tr>';
 		});
 		$('#raceList').html(tableContent);
+	});
+}
+
+function populateParticipantTable(_id){
+	$.getJSON('/races/'+ _id, function(data){
+		$('#upName').val(data[0].name);
+	    $('#upStarted').prop('checked',data[0].hasStarted);
+	    $('#upId').val(data[0]._id);
+	    var tableContent = '';
+	    $.each(data[0].users, function(){
+	    	tableContent += '<tr>';
+	        tableContent += '<td>' + this.fullname + '</td>';
+	        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deParticipantRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
+	        tableContent += '</tr>';
+	    });
+	    $('#raceParticipantsList').html(tableContent);
 	});
 }
 
@@ -58,12 +81,7 @@ function createRace(event){
 
 function showRace(event){
     var _id = $(this).attr('rel');
-    var arrayPosition = raceList.map(function(arrayItem) { return arrayItem._id; }).indexOf(_id);
-    var race = raceList[arrayPosition];
-
-    $('#upName').val(race.name);
-    $('#upStarted').prop('checked',race.hasStarted);
-    $('#upId').val(race._id);
+    populateParticipantTable(_id);
 }
 
 function updateRace(event){
@@ -103,7 +121,7 @@ function deleteRace(event){
 			data.message = {
 				classType: 'alert-success',
 				selector: '#messageBox',
-				message: 'Races is removed!'
+				message: 'Race is removed!'
 			}
 			socket.emit('updated', data);
 		},
@@ -111,4 +129,33 @@ function deleteRace(event){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
         }
 	});
+}
+
+function deleteParticipantRace(event){
+	event.preventDefault();
+	var data = {
+	 		'_id': $('#upId').val(),
+            'userId': $(this).attr('rel')
+    }
+    $.ajax({
+        type: 'delete',
+        url: '/races/' + data._id + '/participant',
+        data: data,
+        dataType: 'JSON',
+        success: function( data, status ) {
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'Participant removed from Race!',
+				type: 'participant',
+				id: $('#upId').val()
+			}
+			socket.emit('updated', data);
+			$('#updateForm').find('input:text').val('');
+			$('#upStarted').prop('checked', false);
+        },
+        error: function(err){
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+        }
+    });
 }

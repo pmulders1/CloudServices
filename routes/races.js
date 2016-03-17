@@ -58,12 +58,27 @@ function deleteRace(req, res){
 	});
 }
 
+function deleteParticipantRace(req, res){
+	Race.removeParticipant({
+		data: req.body,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('races', { title: 'Express' });
 });
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
+
+router.route('/:id/participant').delete(deleteParticipantRace);
 
 router.route('/all').get(getRaces);
 

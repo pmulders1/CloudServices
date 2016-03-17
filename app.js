@@ -1,6 +1,7 @@
 /*
     Wat is de uniforme manier van error handling?
     Wordt er gekeken naar user experience van de pagina's? -> Races
+    Bij het toevoegen van een virtual propertie komt er een extra id bij?
 */
 
 var express = require('express');

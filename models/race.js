@@ -25,19 +25,17 @@ function init(mongoose){
 
 	// Virtuals 
 	schema.virtual('count.users').get(function () {
-
 		return this.users.length;
 	});
 
 	schema.virtual('count.locations').get(function () {
-		
 		return this.locations.length;
 	});
 	// /Virtuals 
 
 	// Statics 
 	schema.statics.get = function(options){
-		return this.find(options.filter).exec(options.callback);
+		return this.find(options.filter).populate('users').populate('locations').exec(options.callback);
 	};
 
 	schema.statics.add = function(options){
@@ -50,6 +48,10 @@ function init(mongoose){
 
 	schema.statics.update = function(options){
 		this.where('_id', options.data._id).update({$set: {name: options.data.name, hasStarted: options.data.hasStarted}}, options.callback);
+	}
+
+	schema.statics.removeParticipant = function(options){
+		this.where('_id', options.data._id).update({$pull: {users: options.data.userId}}, options.callback);
 	}
 	// /Statics
 	mongoose.model('Race', schema);
