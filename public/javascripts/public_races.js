@@ -6,16 +6,14 @@ $(document).ready(function(){
 	$('#raceList').on('click', 'td a#upRace', showRace);
 	$('#raceList').on('click', 'td a#deRace', deleteRace);
 	$('#raceParticipantsList').on('click', 'td a#deParticipantRace', deleteParticipantRace);
+	$('#raceLocationsList').on('click', 'td a#deLocationRace', deleteLocationRace);
 	$('#updateRace').on('click', updateRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
 		populateTable();
 		
-		console.log("message Type: " + data.message.type);
-		console.log("socketID: " + data.message.id + ", elementID: " + $('#upId').val());
-		if(data.message.type === 'participant' && $('#upId').val() === data.message.id){
-			populateTable();
-			populateParticipantTable(data.message.id);
+		if(data.message.type === 'sublist' && $('#upId').val() === data.message.id){
+			populateSublistTable(data.message.id);
 		}
 	});
 });
@@ -38,7 +36,7 @@ function populateTable(callBack){
 	});
 }
 
-function populateParticipantTable(_id){
+function populateSublistTable(_id){
 	$.getJSON('/races/'+ _id, function(data){
 		$('#upName').val(data[0].name);
 	    $('#upStarted').prop('checked',data[0].hasStarted);
@@ -51,6 +49,16 @@ function populateParticipantTable(_id){
 	        tableContent += '</tr>';
 	    });
 	    $('#raceParticipantsList').html(tableContent);
+	    var tableContent = '';
+	    $.each(data[0].locations, function(){
+	    	tableContent += '<tr>';
+	        tableContent += '<td>' + this.place_id + '</td>';
+	        tableContent += '<td>' + this.place_id + '</td>';
+	        tableContent += '<td>' + this.place_id + '</td>';
+	        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deLocationRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
+	        tableContent += '</tr>';
+	    });
+	    $('#raceLocationsList').html(tableContent);
 	});
 }
 
@@ -81,7 +89,7 @@ function createRace(event){
 
 function showRace(event){
     var _id = $(this).attr('rel');
-    populateParticipantTable(_id);
+    populateSublistTable(_id);
 }
 
 function updateRace(event){
@@ -135,7 +143,7 @@ function deleteParticipantRace(event){
 	event.preventDefault();
 	var data = {
 	 		'_id': $('#upId').val(),
-            'userId': $(this).attr('rel')
+            'itemId': $(this).attr('rel')
     }
     $.ajax({
         type: 'delete',
@@ -147,12 +155,37 @@ function deleteParticipantRace(event){
 				classType: 'alert-success',
 				selector: '#messageBox',
 				message: 'Participant removed from Race!',
-				type: 'participant',
+				type: 'sublist',
 				id: $('#upId').val()
 			}
 			socket.emit('updated', data);
-			$('#updateForm').find('input:text').val('');
-			$('#upStarted').prop('checked', false);
+        },
+        error: function(err){
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+        }
+    });
+}
+
+function deleteLocationRace(event){
+	event.preventDefault();
+	var data = {
+	 		'_id': $('#upId').val(),
+            'itemId': $(this).attr('rel')
+    }
+    $.ajax({
+        type: 'delete',
+        url: '/races/' + data._id + '/location',
+        data: data,
+        dataType: 'JSON',
+        success: function( data, status ) {
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'Location removed from Race!',
+				type: 'sublist',
+				id: $('#upId').val()
+			}
+			socket.emit('updated', data);
         },
         error: function(err){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);

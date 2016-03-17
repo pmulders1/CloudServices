@@ -61,6 +61,21 @@ function deleteRace(req, res){
 function deleteParticipantRace(req, res){
 	Race.removeParticipant({
 		data: req.body,
+		collection: 'users',
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
+function deleteLocationRace(req, res){
+	Race.removeLocation({
+		data: req.body,
+		collection: 'locations',
 		callback: function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
@@ -79,6 +94,8 @@ router.get('/', function(req, res, next) {
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 
 router.route('/:id/participant').delete(deleteParticipantRace);
+
+router.route('/:id/location').delete(deleteLocationRace);
 
 router.route('/all').get(getRaces);
 

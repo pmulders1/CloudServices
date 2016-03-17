@@ -49,9 +49,15 @@ function init(mongoose){
 	schema.statics.update = function(options){
 		this.where('_id', options.data._id).update({$set: {name: options.data.name, hasStarted: options.data.hasStarted}}, options.callback);
 	}
-
+	// schema.statics.removeItemFromSublist = function(options){
+	// 	this.where('_id', options.data._id).update({$pull: {options.collection: options.data.itemId}}, options.callback);
+	// }
 	schema.statics.removeParticipant = function(options){
-		this.where('_id', options.data._id).update({$pull: {users: options.data.userId}}, options.callback);
+		this.where('_id', options.data._id).update({$pull: {users: options.data.itemId}}, options.callback);
+	}
+
+	schema.statics.removeLocation = function(options){
+		this.where('_id', options.data._id).update({$pull: {locations: options.data.itemId}}, options.callback);
 	}
 	// /Statics
 	mongoose.model('Race', schema);
