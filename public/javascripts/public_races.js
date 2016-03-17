@@ -5,6 +5,8 @@ $(document).ready(function(){
 
 	$('#crRace').on('click', createRace);
 	$('#raceList').on('click', 'td a#upRace', showRace);
+	$('#raceList').on('click', 'td a#deRace', deleteRace);
+	$('#updateRace').on('click', updateRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
 		populateTable();
@@ -62,4 +64,52 @@ function showRace(event){
     $('#upName').val(race.name);
     $('#upStarted').attr('checked',race.hasStarted);
     $('#upId').val(race._id);
+}
+
+function updateRace(event){
+	event.preventDefault();
+	var data = {
+	 		'_id': $('#upId').val(),
+            'name': $('#upName').val(),
+            'hasStarted': $('#upStarted').is(':checked')
+    }
+    console.log(data.hasStarted);
+    $.ajax({
+        type: 'PUT',
+        url: '/races/' + data._id,
+        data: data,
+        dataType: 'JSON',
+        success: function( data, status ) {
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'Race is updated!'
+			}
+			socket.emit('updated', data);
+			$('#updateForm').find('input:text').val('');
+			$('#upStarted').attr('checked', false);
+        },
+        error: function(err){
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+        }
+    });
+}
+
+function deleteRace(event){
+	event.preventDefault();
+	$.ajax({
+		type: 'delete',
+		url: '/races/' + $(this).attr('rel'),
+		success: function( data, status ){
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'Races is removed!'
+			}
+			socket.emit('updated', data);
+		},
+		error: function(err){
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+        }
+	});
 }

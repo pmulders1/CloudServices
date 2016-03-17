@@ -1,6 +1,6 @@
 /*
-  Bij de sockets? -> Moeten we een user bijvoorbeeld toevoegen of mogen we heel de lijst opnieuw ophalen?
-                  -> Bij users PopulateTable als je createuser uitvoerd wacht die op de socket.on/emit.
+    Wat is de uniforme manier van error handling?
+    Wordt er gekeken naar user experience van de pagina's? -> Races
 */
 
 var express = require('express');
