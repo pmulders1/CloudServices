@@ -1,6 +1,6 @@
 var raceList = [];
 $(document).ready(function(){
-	populateTable();
+	populateRaceTable();
 
 	$('#crRace').on('click', createRace);
 	$('#raceList').on('click', 'td a#upRace', showRace);
@@ -10,7 +10,7 @@ $(document).ready(function(){
 	$('#updateRace').on('click', updateRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
-		populateTable(function(){
+		populateRaceTable(function(){
 			
 			if(data.message.type === 'sublist' && $('#upId').val() === data.message.id){
 				populateSublistTable(data.message.id);
@@ -19,9 +19,9 @@ $(document).ready(function(){
 	});
 });
 
-function populateTable(callBack){
+function populateRaceTable(callBack){
 	var tableContent = '';
-
+	
 	$.getJSON('/races/all', function(data){
 		raceList = data;
 		$.each(data, function(){
@@ -45,7 +45,7 @@ function populateSublistTable(_id){
 	var tableContent = '';
     $.each(raceList[0].users, function(){
     	tableContent += '<tr>';
-        tableContent += '<td>' + this.fullname + '</td>';
+        tableContent += '<td>' + this.username + '</td>';
         tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deParticipantRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
         tableContent += '</tr>';
     });

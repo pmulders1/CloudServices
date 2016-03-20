@@ -1,28 +1,23 @@
 var userList = [];
 
 $(document).ready(function(){
-
-	populateTable();
-
+	populateUserTable();
 	$('#crUser').on('click', createUser);
 	$('#userList').on('click', 'td a#upUser', showUser);
 	$('#userList').on('click', 'td a#deUser', deleteUser);
 	$('#updateUser').on('click', updateUser);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
-		populateTable();
+		populateUserTable();
 	});
 });
-
-function populateTable(){
+function populateUserTable(){
 	var tableContent = '';
-
 	$.getJSON('/users/all', function(data){
 		userList = data;
 		$.each(data, function(){
 			tableContent += '<tr>';
-            tableContent += '<td>' + this.firstname + '</td>';
-			tableContent += '<td>' + this.lastname + '</td>';
+            tableContent += '<td>' + this.username + '</td>';
             tableContent += '<td><a href="#" class="btn btn-default btn-sm right5" id="upUser" rel="' + this._id + '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><a href="#" class="btn btn-default btn-sm" id="deUser" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
             tableContent += '</tr>';
 		});
@@ -34,8 +29,7 @@ function createUser(event){
 	event.preventDefault();
 
 	var data = {
-		'firstname': $('#crFirstname').val(),
-		'lastname': $('#crLastname').val()
+		'username': $('#crUsername').val()
 	}
 	$.ajax({
 		type: 'POST',
@@ -61,8 +55,7 @@ function showUser(event){
     var arrayPosition = userList.map(function(arrayItem) { return arrayItem._id; }).indexOf(_id);
     var user = userList[arrayPosition];
 
-    $('#upFirstname').val(user.firstname);
-    $('#upLastname').val(user.lastname);
+    $('#upUsername').val(user.username);
     $('#upId').val(user._id);
 }
 
@@ -70,8 +63,7 @@ function updateUser(event){
 	event.preventDefault();
 	var data = {
 	 		'_id': $('#upId').val(),
-            'firstname': $('#upFirstname').val(),
-            'lastname': $('#upLastname').val()
+            'username': $('#upUsername').val()
     }
     $.ajax({
         type: 'PUT',

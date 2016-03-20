@@ -45,8 +45,7 @@ function fillTestUsers(callback){
 	var testData = [
 		{
 			_id: userId,
-			firstname: "Paul",
-			lastname: "Mulders"
+			username: "PaulTheKing"
 		}
 		// Vul hier je testdata voor boeken in 
 		// {}, {}, {}

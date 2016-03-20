@@ -10,18 +10,36 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 
-// Data Access Layer
-mongoose.connect('mongodb://mdb5:mdb5@ds015859.mlab.com:15859/cloudservicesmbd5');
-// /Data Access Layer
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt-nodejs');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var session      = require('express-session');
+
+var app = express();
 
 // Models
 require('./models/race')(mongoose);
-require('./models/user')(mongoose);
+require('./models/user')(mongoose, bcrypt);
 require('./models/location')(mongoose);
 require('./models/fillTestData')(mongoose);
-// /Models
+
+// Data Access Layer
+mongoose.connect('mongodb://mdb5:mdb5@ds015859.mlab.com:15859/cloudservicesmbd5');
+require('./public/javascripts/passport')(passport); // pass passport for configuration
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// view engine setup
+app.engine('hbs', exphbs({extname:'.hbs', defaultLayout:'main.hbs'}));
+app.set('view engine', 'hbs');
 
 function handleError(req, res, statusCode, message){
     console.log();
@@ -34,6 +52,12 @@ function handleError(req, res, statusCode, message){
     res.json(message);
 };
 
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 // Routes
 var routes = require('./routes/index');
 var users = require('./routes/users')(mongoose, handleError);
@@ -41,24 +65,14 @@ var races = require('./routes/races')(mongoose, handleError);
 var locations = require('./routes/locations')(mongoose, handleError);
 // /Routes
 
-var app = express();
 
-// view engine setup
-app.engine('hbs', exphbs({extname:'.hbs', defaultLayout:'main.hbs'}));
-app.set('view engine', 'hbs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/races', races);
 app.use('/users', users);
 app.use('/locations', locations);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
