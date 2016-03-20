@@ -1,9 +1,6 @@
 /*
     Wat is de uniforme manier van error handling?
-    Wordt er gekeken naar user experience van de pagina's? -> Races
-    Bij het toevoegen van een virtual propertie komt er een extra id bij?
-    Hoe kunnen we de PULL van race->removeSubList aan de praat krijgen?
-    Wat is een mooie manier om bij races->public_races.js de data op tehalen nadat een user/locatie is verwijdert?
+    Waarom crasht de oude database?
 */
 
 var express = require('express');

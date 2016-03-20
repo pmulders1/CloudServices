@@ -10,11 +10,12 @@ $(document).ready(function(){
 	$('#updateRace').on('click', updateRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
-		populateTable();
-		
-		if(data.message.type === 'sublist' && $('#upId').val() === data.message.id){
-			populateSublistTable(data.message.id);
-		}
+		populateTable(function(){
+			
+			if(data.message.type === 'sublist' && $('#upId').val() === data.message.id){
+				populateSublistTable(data.message.id);
+			}
+		});
 	});
 });
 
@@ -33,33 +34,32 @@ function populateTable(callBack){
             tableContent += '</tr>';
 		});
 		$('#raceList').html(tableContent);
+
+		if(callBack){
+			callBack();
+		}
 	});
 }
 
 function populateSublistTable(_id){
-	$.getJSON('/races/'+ _id, function(data){
-		$('#upName').val(data[0].name);
-	    $('#upStarted').prop('checked',data[0].hasStarted);
-	    $('#upId').val(data[0]._id);
-	    var tableContent = '';
-	    $.each(data[0].users, function(){
-	    	tableContent += '<tr>';
-	        tableContent += '<td>' + this.fullname + '</td>';
-	        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deParticipantRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
-	        tableContent += '</tr>';
-	    });
-	    $('#raceParticipantsList').html(tableContent);
-	    var tableContent = '';
-	    $.each(data[0].locations, function(){
-	    	tableContent += '<tr>';
-	        tableContent += '<td>' + this.place_id + '</td>';
-	        tableContent += '<td>' + this.place_id + '</td>';
-	        tableContent += '<td>' + this.place_id + '</td>';
-	        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deLocationRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
-	        tableContent += '</tr>';
-	    });
-	    $('#raceLocationsList').html(tableContent);
-	});
+	var tableContent = '';
+    $.each(raceList[0].users, function(){
+    	tableContent += '<tr>';
+        tableContent += '<td>' + this.fullname + '</td>';
+        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deParticipantRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
+        tableContent += '</tr>';
+    });
+    $('#raceParticipantsList').html(tableContent);
+    var tableContent = '';
+    $.each(raceList[0].locations, function(){
+    	tableContent += '<tr>';
+        tableContent += '<td>' + this.place_id + '</td>';
+        tableContent += '<td>' + this.place_id + '</td>';
+        tableContent += '<td>' + this.place_id + '</td>';
+        tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deLocationRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
+        tableContent += '</tr>';
+    });
+    $('#raceLocationsList').html(tableContent);
 }
 
 function createRace(event){
