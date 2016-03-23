@@ -1,7 +1,7 @@
 function init(mongoose, bcrypt){
 	console.log('Initializing user schema');
 	var schema = mongoose.Schema({
-		username : { type: String, required: true},
+		username : { type: String },
 		local            : {
 	        email        : String,
 	        password     : String,
@@ -47,7 +47,13 @@ function init(mongoose, bcrypt){
 	};
 
 	schema.statics.add = function(options){
-		options.data.save(options.callback)
+		console.log(options);
+		var User = mongoose.model('User');
+		var user = new mongoose.model('User')();
+		user.username = options.data.username;
+		user.local.email = options.data.email;
+		user.local.password = user.generateHash(options.data.password);
+		user.save(options.callback);
 	}
 
 	schema.statics.delete = function(options){

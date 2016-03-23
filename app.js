@@ -1,6 +1,6 @@
 /*
     Wat is de uniforme manier van error handling?
-    Waarom crasht de oude database?
+    Username toevoegen die wel via de signup gaat.
 */
 
 var express = require('express');
@@ -87,6 +87,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log(err);
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,

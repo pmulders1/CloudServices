@@ -29,8 +29,11 @@ function createUser(event){
 	event.preventDefault();
 
 	var data = {
-		'username': $('#crUsername').val()
+		'username': $('#crUsername').val(),
+		'email': $('#crEmail').val(),
+		'password': $('#crPassword').val()
 	}
+	console.log(data);
 	$.ajax({
 		type: 'POST',
 		data: data,
@@ -45,7 +48,7 @@ function createUser(event){
 			socket.emit('updated', data);
 			$('#createForm').find('input:text').val('');
 		}, error: function(err){
-			utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+			utilities.showMessageBox('alert-danger', '#messageBox', err.message);
 		}
 	});
 }
