@@ -45,7 +45,11 @@ function fillTestUsers(callback){
 	var testData = [
 		{
 			_id: userId,
-			username: "PaulTheKing"
+			username: "PaulTheKing",
+			local: {
+				email: "test@test.com",
+				password: "$2a$08$ObyTFRXwxyGgUwB1CZGitOHAtFrJkuaMast95wlxnIx7m1NPe.LYi"
+			}
 		}
 		// Vul hier je testdata voor boeken in 
 		// {}, {}, {}

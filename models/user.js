@@ -52,7 +52,6 @@ function init(mongoose, bcrypt){
 	};
 
 	schema.statics.add = function(options){
-		console.log(options);
 		var user = mongoose.model('User')();
 		user.username = options.data.username;
 		user.local.email = options.data.email;
@@ -65,7 +64,7 @@ function init(mongoose, bcrypt){
 	}
 
 	schema.statics.update = function(options){
-		this.where('_id', options.data._id).update({$set: {username: options.data.username}}, options.callback);
+		this.where('_id', options.data._id).update({$set: {username: options.data.username, 'local.email': options.data.email }}, options.callback);
 	}
 	// /Statics
 	mongoose.model('User', schema);

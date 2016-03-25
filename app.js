@@ -1,6 +1,5 @@
 /*
-    Wat is de uniforme manier van error handling?
-    Username toevoegen die wel via de signup gaat.
+    Kunnen we de wachtwoorden op clienside ook hashen?
 */
 
 var express = require('express');
