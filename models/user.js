@@ -1,7 +1,8 @@
 function init(mongoose, bcrypt){
 	console.log('Initializing user schema');
 	var schema = mongoose.Schema({
-		username : { type: String },
+		username : { type: String, required: true},
+		roles: [{type: String, default: "User"}],
 		local            : {
 	        email        : String,
 	        password     : String,
@@ -30,6 +31,10 @@ function init(mongoose, bcrypt){
 		}
 	});
 
+	schema.methods.isInRole = function(role){
+		return this.roles.indexOf(role) > -1;
+	}
+
 	// methods ======================
 	// generating a hash
 	schema.methods.generateHash = function(password) {
@@ -48,8 +53,7 @@ function init(mongoose, bcrypt){
 
 	schema.statics.add = function(options){
 		console.log(options);
-		var User = mongoose.model('User');
-		var user = new mongoose.model('User')();
+		var user = mongoose.model('User')();
 		user.username = options.data.username;
 		user.local.email = options.data.email;
 		user.local.password = user.generateHash(options.data.password);

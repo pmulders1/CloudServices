@@ -4,7 +4,8 @@ var User;
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-
+var auth = require('./../modules/authen.js');
+console.log(auth);
 function getUsers(req, res){
 	User.get({
 		filter: req.query,
@@ -70,7 +71,7 @@ router.get('/', function(req, res, next) {
 
 router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
 
-router.route('/all').get(getUsers);
+router.route('/all').get(auth('admin'), getUsers);
 
 router.route('/add').post(addUser);
 

@@ -60,8 +60,8 @@ router.post('/login', passport.authenticate('local-login', {
 
 router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-    // the callback after google has authenticated the user
-    router.get('/auth/google/callback',
+// the callback after google has authenticated the user
+router.get('/auth/google/callback',
             passport.authenticate('google', {
                     successRedirect : '/profile',
                     failureRedirect : '/'
