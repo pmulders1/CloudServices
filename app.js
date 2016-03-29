@@ -2,6 +2,7 @@
     Locatie - verwijder bij het uithalen van de array in races.
     Authenticatie op de high level routes?
     Documentatie voor de api?
+    Wil je niet dat mensen een race joinen VOORDAT die begint
 
     TODO
     Users - lijst laten zien met races niet aangemeld, races wel aangemeld
@@ -10,6 +11,8 @@
     Middleware terugsturen statuscode/html
     Validation
     pagination
+    update race vullen met check en naam
+    frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
 */
 
 var express = require('express');

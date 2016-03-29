@@ -2,15 +2,10 @@ var raceList = [];
 $(document).ready(function(){
 	populateRaceTable();
 
-	$('#raceList').on('click', 'td a#joinRace', joinRace);
+	$('#notMeRaces').on('click', 'td a#joinRace', joinRace);
 	socket.on('updated', function(data){
 		utilities.showMessageBox(data.message.classType, data.message.selector, data.message.message);
-		// populateRaceTable(function(){
-			
-		// 	if(data.message.type === 'sublist' && $('#upId').val() === data.message.id){
-		// 		populateSublistTable(data.message.id);
-		// 	}
-		// });
+		populateRaceTable();
 	});
 });
 

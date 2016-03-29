@@ -63,8 +63,6 @@ function populateSublistTable(_id){
     $.each(raceList[index].locations, function(){
     	tableContent += '<tr>';
         tableContent += '<td>' + this.place_id + '</td>';
-        tableContent += '<td>' + this.place_id + '</td>';
-        tableContent += '<td>' + this.place_id + '</td>';
         tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deLocationRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
         tableContent += '</tr>';
     });
@@ -223,7 +221,9 @@ function addToRace(event){
 			data.message = {
 				classType: 'alert-success',
 				selector: '#messageBox',
-				message: 'Location added to race!'
+				message: 'Location added to race!',
+				type: 'sublist',
+				id: $('#upId').val()
 			}
 			socket.emit('updated', data);
 			// Deze uit de lijst halen en andere lijst updaten.
