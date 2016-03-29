@@ -32,6 +32,19 @@ function addRace(req, res){
 	});
 }
 
+function addLocation(req, res){
+	Race.addLocation({
+		data: req.body,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 function updateRace(req, res){
 	Race.update({
 		data: req.body,
@@ -108,7 +121,7 @@ router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 
 router.route('/:id/participant').delete(deleteParticipantRace);
 
-router.route('/:id/location').delete(deleteLocationRace);
+router.route('/:id/location').put(addLocation).delete(deleteLocationRace);
 
 router.route('/:id/join').put(joinRace);
 

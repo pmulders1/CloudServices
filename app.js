@@ -1,12 +1,14 @@
 /*
-    Wat wordt er bedoeld met De websservice maakt gebruik van de validatiemogelijkheden van mongoose in de rubrics
-
+    Locatie - verwijder bij het uithalen van de array in races.
 
     TODO
     Users - lijst laten zien met races niet aangemeld, races wel aangemeld
     Locaties toevoegen aan race
     Tests
     Middleware terugsturen statuscode/html
+    Validation
+
+    ApiKey:AIzaSyAD70kWnbzT-W2SixDKpJRcN5S8PMwfgFc
 */
 
 var express = require('express');
@@ -23,7 +25,7 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
 
-var auth = require('./modules/authen')
+var auth = require('./modules/authen');
 
 var app = express();
 

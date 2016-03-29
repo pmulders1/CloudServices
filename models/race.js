@@ -53,8 +53,15 @@ function init(mongoose){
 	schema.statics.removeParticipant = function(options){
 		this.where('_id', options.data._id).update({$pull: {users: options.data.itemId}}, options.callback);
 	}
-
+	schema.statics.addLocation = function(options){
+		var location = mongoose.model('Location')();
+		location.place_id = options.data.place_id;
+		location.save();
+		this.where('_id', options.data._id).update({$addToSet: {locations: location._id}}, options.callback);
+	}
 	schema.statics.removeLocation = function(options){
+		var location =  mongoose.model('Location')();
+		location.remove({_id: options.data.itemId});
 		this.where('_id', options.data._id).update({$pull: {locations: options.data.itemId}}, options.callback);
 	}
 	schema.statics.joinRace = function(options){

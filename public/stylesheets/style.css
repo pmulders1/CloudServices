@@ -5,3 +5,6 @@
 .lineHeight30{
 	line-height: 30px;
 }
+#map {
+    height: 50%;
+}

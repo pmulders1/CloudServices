@@ -37,7 +37,6 @@ function populateRaceTable(callBack){
 }
 
 function joinRace(event){
-	console.log("hi");
 	event.preventDefault();
 	var data = {
 	 		'_id': $(this).attr('rel'),

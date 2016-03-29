@@ -2,6 +2,8 @@ var raceList = [];
 $(document).ready(function(){
 	populateRaceTable();
 
+	$('#map').on('click', 'a#addToRace', addToRace);
+
 	$('#crRace').on('click', createRace);
 	$('#raceList').on('click', 'td a#upRace', showRace);
 	$('#raceList').on('click', 'td a#deRace', deleteRace);
@@ -153,7 +155,6 @@ function deleteParticipantRace(event){
 	 		'_id': $('#upId').val(),
             'itemId': $(this).attr('rel')
     }
-    console.log( $('#upId').val());
     $.ajax({
         type: 'delete',
         url: '/races/' + data._id + '/participant',
@@ -195,6 +196,37 @@ function deleteLocationRace(event){
 				id: $('#upId').val()
 			}
 			socket.emit('updated', data);
+        },
+        error: function(err){
+            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+        }
+    });
+}
+
+function addToRace(event){
+	event.preventDefault();
+	if(!$('#upId').val()){
+		utilities.showMessageBox('alert-danger', '#messageBox', "Please select a race before adding a location!");
+		return;
+	}
+
+	var data = {
+ 		'_id': $('#upId').val(),
+        'place_id': $(this).attr('rel')
+    }
+    $.ajax({
+        type: 'PUT',
+        url: '/races/' + data._id + '/location',
+        data: data,
+        dataType: 'JSON',
+        success: function( data, status ) {
+			data.message = {
+				classType: 'alert-success',
+				selector: '#messageBox',
+				message: 'Location added to race!'
+			}
+			socket.emit('updated', data);
+			// Deze uit de lijst halen en andere lijst updaten.
         },
         error: function(err){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);

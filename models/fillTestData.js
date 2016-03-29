@@ -75,7 +75,7 @@ function fillTestLocations(callback){
 	var testData = [
 		{
 			_id: locationId,
-			place_id: 23
+			place_id: "asdasdasdcx"
 		}
 		// Vul hier je testdata voor boeken in 
 		// {}, {}, {}
