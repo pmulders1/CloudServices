@@ -86,6 +86,19 @@ function deleteLocationRace(req, res){
 	});
 }
 
+function joinRace(req, res){
+	Race.joinRace({
+		data: req.body,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('races', { title: 'Express' });
@@ -96,6 +109,8 @@ router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 router.route('/:id/participant').delete(deleteParticipantRace);
 
 router.route('/:id/location').delete(deleteLocationRace);
+
+router.route('/:id/join').put(joinRace);
 
 router.route('/all').get(getRaces);
 

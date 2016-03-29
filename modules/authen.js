@@ -1,13 +1,11 @@
 module.exports = function(role){
-	console.log("returning middleware");
 	return function(req, res, next){
-		console.log(" haha")
-		if(req.user.isInRole(role)){
-			console.log("hahaha");
+		if(!req.user){
+			res.sendStatus(401);
+		}else if(!role || req.user.isInRole(role)){
 			next();
-		} else {
-			console.log("haha")
-			res.json("Error Error")
+		}else{
+			res.sendStatus(403);
 		}
 	}
 }

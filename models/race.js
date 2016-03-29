@@ -57,6 +57,9 @@ function init(mongoose){
 	schema.statics.removeLocation = function(options){
 		this.where('_id', options.data._id).update({$pull: {locations: options.data.itemId}}, options.callback);
 	}
+	schema.statics.joinRace = function(options){
+		this.where('_id', options.data._id).update({$addToSet: {users: options.data.userId}}, options.callback);
+	}
 	// /Statics
 	mongoose.model('Race', schema);
 }

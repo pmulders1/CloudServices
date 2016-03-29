@@ -1,0 +1,51 @@
+<div class="page-header text-center">
+    <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+</div>
+
+<div class="row">
+    <!-- LOCAL INFORMATION -->
+    <div class="col-sm-6">
+        <div class="well">
+            <h3><span class="fa fa-user"></span> Local</h3>
+                <input type="hidden" id="userId" value="{{ user._id }}">
+                <p>
+                    <strong>id</strong>: {{ user._id }}<br>
+                    <strong>email</strong>: {{ user.local.email }}<br>
+                </p>
+
+        </div>
+    </div>
+    <!-- GOOGLE INFORMATION -->
+    <div class="col-sm-6">
+        <div class="well">
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+                <p>
+                    <strong>id</strong>: {{  user.google.id }}<br>
+                    <strong>token</strong>: {{  user.google.token }}<br>
+                    <strong>email</strong>: {{  user.google.email }}<br>
+                    <strong>name</strong>: {{  user.google.name }}
+                </p>
+
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h1>Join Race</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Race in progress</th>
+                    <th>Nr. of checkpoints</th>
+                    <th>Nr. of participants</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody id="raceList">
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+<script src="/javascripts/public_races.js"></script>
