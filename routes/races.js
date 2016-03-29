@@ -112,10 +112,41 @@ function joinRace(req, res){
 	});
 }
 
+function getMyRaces(req, res){
+	
+	Race.getJoinedRaces({
+		_id: req.user._id,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
+function getNotMyRaces(req, res){
+	
+	Race.getNotJoinedRaces({
+		_id: req.user._id,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('races', { title: 'Express' });
 });
+
+router.route('/me').get(getMyRaces);
+router.route('/notme').get(getNotMyRaces);
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 

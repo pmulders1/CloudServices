@@ -16,8 +16,8 @@ $(document).ready(function(){
 
 function populateRaceTable(callBack){
 	var tableContent = '';
-	
-	$.getJSON('/races/all', function(data){
+	var _id = $('#userId').val();
+	$.getJSON('/races/me', _id, function(data){
 		raceList = data;
 		$.each(data, function(){
 			tableContent += '<tr>';
@@ -28,7 +28,27 @@ function populateRaceTable(callBack){
             tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="joinRace" rel="' + this._id + '"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></td>';
             tableContent += '</tr>';
 		});
-		$('#raceList').html(tableContent);
+		$('#meRaces').html(tableContent);
+
+		if(callBack){
+			callBack();
+		}
+	});
+
+	var tableContent2 = '';
+	var _id = $('#userId').val();
+	$.getJSON('/races/notme', _id, function(data){
+		raceList = data;
+		$.each(data, function(){
+			tableContent2 += '<tr>';
+            tableContent2 += '<td>' + this.name + '</td>';
+			tableContent2 += '<td>' + this.hasStarted + '</td>';
+			tableContent2 += '<td>' + this.count.locations + '</td>';
+			tableContent2 += '<td>' + this.count.users + '</td>';
+            tableContent2 += '<td><a href="#" class="btn btn-default btn-sm" id="joinRace" rel="' + this._id + '"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></td>';
+            tableContent2 += '</tr>';
+		});
+		$('#notMeRaces').html(tableContent2);
 
 		if(callBack){
 			callBack();

@@ -1,5 +1,7 @@
 /*
     Locatie - verwijder bij het uithalen van de array in races.
+    Authenticatie op de high level routes?
+    Documentatie voor de api?
 
     TODO
     Users - lijst laten zien met races niet aangemeld, races wel aangemeld
@@ -7,8 +9,7 @@
     Tests
     Middleware terugsturen statuscode/html
     Validation
-
-    ApiKey:AIzaSyAD70kWnbzT-W2SixDKpJRcN5S8PMwfgFc
+    pagination
 */
 
 var express = require('express');
