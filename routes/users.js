@@ -61,7 +61,7 @@ function deleteUser(req, res){
 }
 
 // Routing
-router.get('/', auth('admin'), function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
 

@@ -67,6 +67,8 @@ function init(mongoose){
 	schema.statics.addLocation = function(options){
 		var location = mongoose.model('Location')();
 		location.place_id = options.data.place_id;
+		location.name = options.data.place_name;
+		location.address = options.data.place_address;
 		location.save();
 		this.where('_id', options.data._id).update({$addToSet: {locations: location._id}}, options.callback);
 	}

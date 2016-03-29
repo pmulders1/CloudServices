@@ -16,7 +16,7 @@ function fillTestRaces(callback){
 	var testData = [
 		{
 			_id: raceId,
-			name: 'TestRace', 
+			name: 'Kroegentocht', 
 			hasStarted: true,
 			locations: [locationId],
 			users: [userId]
@@ -45,10 +45,11 @@ function fillTestUsers(callback){
 	var testData = [
 		{
 			_id: userId,
-			username: "PaulTheKing",
+			username: "admin",
+			roles: ["admin"],
 			local: {
-				email: "test@test.com",
-				password: "$2a$08$ObyTFRXwxyGgUwB1CZGitOHAtFrJkuaMast95wlxnIx7m1NPe.LYi"
+				email: "admin@admin.com",
+				password: "admin"
 			}
 		}
 		// Vul hier je testdata voor boeken in 
@@ -61,7 +62,12 @@ function fillTestUsers(callback){
 			console.log('Creating user testdata');
 			
 			testData.forEach(function(user){
-				new User(user).save(saveCallback);
+				var temp = new User();
+				temp._id = user._id;
+				temp.username = user.username;
+				temp.local.email = user.email;
+				temp.local.password = temp.generateHash(user.password);
+				temp.save(saveCallback);
 			});
 		} else{
 			console.log('Skipping create user testdata, allready present');
@@ -75,7 +81,9 @@ function fillTestLocations(callback){
 	var testData = [
 		{
 			_id: locationId,
-			place_id: "asdasdasdcx"
+			place_id: "ChIJsVYznYruxkcRGn-allVHDw0",
+			name: "Restaurant Mell's Place",
+			address: "Stationsplein 89, 's-Hertogenbosch"
 		}
 		// Vul hier je testdata voor boeken in 
 		// {}, {}, {}

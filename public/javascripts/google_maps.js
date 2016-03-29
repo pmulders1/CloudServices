@@ -38,7 +38,11 @@ function initMap() {
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.vicinity + '<br><a href="#" rel="' + place.place_id + '" id="addToRace">Add to Race</a></div>');
+    var data = {
+      vicinity: place.vicinity, 
+      name: place.name
+    };
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.vicinity + '<br><a href="#" rel="' + place.place_id + '" id="addToRace" data-name="'+ place.name +'" data-address="'+ place.vicinity +'">Add to Race</a></div>');
     infowindow.open(map, this);
   });
 }

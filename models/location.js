@@ -2,6 +2,8 @@ function init(mongoose){
 	console.log('Initializing location schema');
 	var schema = mongoose.Schema({
 		place_id: { type: String, required: true },
+		name: { type:String, required: true },
+		address: { type: String, required: true},
 		users: [{
 			type: mongoose.Schema.Types.ObjectId, ref: "User"
 		}]

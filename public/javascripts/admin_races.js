@@ -62,7 +62,8 @@ function populateSublistTable(_id){
     var tableContent = '';
     $.each(raceList[index].locations, function(){
     	tableContent += '<tr>';
-        tableContent += '<td>' + this.place_id + '</td>';
+        tableContent += '<td>' + this.name + '</td>';
+        tableContent += '<td>' + this.address + '</td>';
         tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="deLocationRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
         tableContent += '</tr>';
     });
@@ -96,7 +97,14 @@ function createRace(event){
 
 function showRace(event){
     var _id = $(this).attr('rel');
-    $('#upId').val(_id);
+    $.each(raceList, function(i, item){
+    	if(item._id == _id){
+    		$('#upName').val(item.name);
+    		$('#upId').val(_id);
+    		$('#upStarted').prop('checked', item.hasStarted);
+    	}
+    });
+   
     populateSublistTable(_id);
 }
 
@@ -120,7 +128,10 @@ function updateRace(event){
 			}
 			socket.emit('updated', data);
 			$('#updateForm').find('input:text').val('');
+			$('#upId').val('');
 			$('#upStarted').prop('checked', false);
+			$('#raceParticipantsList').html('');
+    		$('#raceLocationsList').html('');
         },
         error: function(err){
             utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
@@ -210,7 +221,9 @@ function addToRace(event){
 
 	var data = {
  		'_id': $('#upId').val(),
-        'place_id': $(this).attr('rel')
+        'place_id': $(this).attr('rel'),
+        'place_name': $(this).data('name'),
+        'place_address': $(this).data('address')
     }
     $.ajax({
         type: 'PUT',

@@ -3,15 +3,14 @@
     Authenticatie op de high level routes?
     Documentatie voor de api?
     Wil je niet dat mensen een race joinen VOORDAT die begint
+    Standaard admin wachtwoord gaat niet goed
 
     TODO
-    Users - lijst laten zien met races niet aangemeld, races wel aangemeld
-    Locaties toevoegen aan race
+    Locatie kunnen taggen
     Tests
     Middleware terugsturen statuscode/html
     Validation
     pagination
-    update race vullen met check en naam
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
 */
 
