@@ -4,15 +4,12 @@ var User;
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-var auth = require('./../modules/authen.js');
-console.log(auth);
+var auth = require('../modules/authen');
+
 function getUsers(req, res){
 	User.get({
 		filter: req.query,
 		callback: function(err, data){
-
-			
-
 			if(err){ return handleError(req, res, 500, err); }
 			else {
 				res.status(201);
@@ -24,16 +21,15 @@ function getUsers(req, res){
 }
 
 function addUser(req, res){
-	console.log(" kippetje tok")
 	User.add({
 		data: req.body,
 		callback: function(err, data){
 			console.log(err);
-			if(err){ console.log(' koetje koe' );return handleError(req, res, 500, err); }
-			
+			if(err){ return handleError(req, res, 500, err); }
+			else{
 				res.status(201);
 				res.json(data);
-			
+			}
 		}
 	});
 }
@@ -65,13 +61,13 @@ function deleteUser(req, res){
 }
 
 // Routing
-router.get('/', function(req, res, next) {
+router.get('/', auth('admin'), function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
 
 router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
 
-router.route('/all').get(auth('admin'), getUsers);
+router.route('/all').get(getUsers);
 
 router.route('/add').post(addUser);
 

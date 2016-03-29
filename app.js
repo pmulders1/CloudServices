@@ -1,5 +1,12 @@
 /*
-    Kunnen we de wachtwoorden op clienside ook hashen?
+    Wat wordt er bedoeld met De websservice maakt gebruik van de validatiemogelijkheden van mongoose in de rubrics
+
+
+    TODO
+    Users - lijst laten zien met races niet aangemeld, races wel aangemeld
+    Locaties toevoegen aan race
+    Tests
+    Middleware terugsturen statuscode/html
 */
 
 var express = require('express');
@@ -15,6 +22,8 @@ var bcrypt   = require('bcrypt-nodejs');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var session      = require('express-session');
+
+var auth = require('./modules/authen')
 
 var app = express();
 

@@ -2,7 +2,7 @@ function init(mongoose, bcrypt){
 	console.log('Initializing user schema');
 	var schema = mongoose.Schema({
 		username : { type: String, required: true},
-		roles: [{type: String, default: "User"}],
+		roles: [{type: String }],
 		local            : {
 	        email        : String,
 	        password     : String,
@@ -29,6 +29,12 @@ function init(mongoose, bcrypt){
 		toJSON: {
 			virtuals: true
 		}
+	});
+	schema.pre("save",function(next) {
+		if (this.roles.indexOf("user") == -1){
+			this.roles.push("user");
+		}
+		next();
 	});
 
 	schema.methods.isInRole = function(role){
