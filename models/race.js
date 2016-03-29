@@ -38,6 +38,14 @@ function init(mongoose){
 		return this.find(options.filter).populate('users').populate('locations').exec(options.callback);
 	};
 
+	schema.statics.getJoinedRaces = function(options){
+		return this.find({"users" : options._id}).exec(options.callback);
+	}
+
+	schema.statics.getNotJoinedRaces = function(options){
+		return this.find({"users" : { $ne : options._id}}).exec(options.callback);
+	}
+
 	schema.statics.add = function(options){
 		options.data.save(options.callback)
 	}

@@ -1,12 +1,14 @@
 /*
     Wat wordt er bedoeld met De websservice maakt gebruik van de validatiemogelijkheden van mongoose in de rubrics
-
+    Authenticatie op de high level routes?
+    Documentatie voor de api?
 
     TODO
     Users - lijst laten zien met races niet aangemeld, races wel aangemeld
     Locaties toevoegen aan race
     Tests
     Middleware terugsturen statuscode/html
+    pagination
 */
 
 var express = require('express');

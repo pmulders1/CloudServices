@@ -23,6 +23,7 @@ function getLocations(req, res){
 		res.json(data);
 	});
 }
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('locations', { title: 'Express' });
