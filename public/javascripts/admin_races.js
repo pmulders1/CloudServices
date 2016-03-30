@@ -24,7 +24,7 @@ $(document).ready(function(){
 function populateRaceTable(callBack){
 	var tableContent = '';
 	
-	$.getJSON('/races/all', function(data){
+	$.getJSON('/races/', function(data){
 		raceList = data;
 		$.each(data, function(index){
 			tableContent += '<tr>';
@@ -79,7 +79,7 @@ function createRace(event){
 	$.ajax({
 		type: 'POST',
 		data: data,
-		url: '/races/add',
+		url: '/races/',
 		dataType: 'JSON',
 		success:function(data){
 			data.message = {

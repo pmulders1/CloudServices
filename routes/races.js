@@ -140,9 +140,11 @@ function getNotMyRaces(req, res){
 }
 
 // Routing
-router.get('/', function(req, res, next) {
-  res.render('races', { title: 'Express' });
+router.get('/view', function(req, res, next) {
+	res.render('races', { title: 'Express' });
 });
+
+router.route('/').get(getRaces).post(addRace);
 
 //router.route('/:pagenr').get(getAuthors);
 
@@ -152,15 +154,9 @@ router.route('/notme').get(getNotMyRaces);
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 
-router.route('/:id/participant').delete(deleteParticipantRace);
+router.route('/:id/participant').delete(deleteParticipantRace).put(joinRace);
 
 router.route('/:id/location').put(addLocation).delete(deleteLocationRace);
-
-router.route('/:id/join').put(joinRace);
-
-router.route('/all').get(getRaces);
-
-router.route('/add').post(addRace);
 
 // Export
 module.exports = function (mongoose, errCallback){

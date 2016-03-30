@@ -13,7 +13,7 @@ $(document).ready(function(){
 });
 function populateUserTable(){
 	var tableContent = '';
-	$.getJSON('/users/all', function(data){
+	$.getJSON('/users/', function(data){
 		userList = data;
 		$.each(data, function(){
 			tableContent += '<tr>';
@@ -36,7 +36,7 @@ function createUser(event){
 	$.ajax({
 		type: 'POST',
 		data: data,
-		url: '/users/add',
+		url: '/users/',
 		dataType: 'JSON',
 		success:function(data){
 			data.message = {

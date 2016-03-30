@@ -7,10 +7,10 @@
     validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update
     We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race
         -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
-
+    Is in races routes me en notme wel restful
 
     TODO
-    Middleware terugsturen statuscode/html
+    Middleware terugsturen statuscode/html -> admin en user middelware zetten
     Validation
     Tests
     pagination

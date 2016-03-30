@@ -60,15 +60,13 @@ function deleteUser(req, res){
 }
 
 // Routing
-router.get('/', function(req, res, next) {
+router.get('/view', function(req, res, next) {
   res.render('users', { title: 'Express' });
 });
 
 router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
 
-router.route('/all').get(getUsers);
-
-router.route('/add').post(addUser);
+router.route('/').get(getUsers).post(addUser);
 
 // Export
 module.exports = function (mongoose, errCallback){

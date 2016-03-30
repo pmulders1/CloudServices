@@ -87,7 +87,6 @@ function getLocations (id) {
         data: data,
         success: function( data, status ) {
 			// Deze uit de lijst halen en andere lijst updaten.
-			console.log(data);
 			var tableContent = '';
 			$.each(data[0].locations, function(index, item){
 				tableContent += '<tr>'
@@ -120,7 +119,7 @@ function tagLocation(event){
 
 	$.ajax({
         type: 'PUT',
-        url: '/locations/' + data._id + '/tag',
+        url: '/locations/' + data._id,
         data: data,
         dataType: 'JSON',
         success: function( data, status ) {
@@ -149,7 +148,7 @@ function joinRace(event){
     }
     $.ajax({
         type: 'PUT',
-        url: '/races/' + data._id + '/join',
+        url: '/races/' + data._id + '/participant',
         data: data,
         dataType: 'JSON',
         success: function( data, status ) {

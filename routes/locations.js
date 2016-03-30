@@ -20,8 +20,6 @@ function getLocations(req, res){
 }
 
 function tagUser(req, res){
-	console.log(req.body);
-	console.log('-----');
 	Location.tagUser({
 		data: req.body,
 		callback: function(err, data){
@@ -35,17 +33,12 @@ function tagUser(req, res){
 }
 
 // Routing
-router.get('/', function(req, res, next) {
-  res.render('locations', { title: 'Express' });
-});
 
-router.route('/all')
+router.route('/')
 	.get(getLocations);
 
 router.route('/:id')
-	.get(getLocations);
-
-router.route('/:id/tag').put(tagUser);
+	.get(getLocations).put(tagUser);
 
 // Export
 module.exports = function (mongoose, errCallback){
