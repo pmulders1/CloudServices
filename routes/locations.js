@@ -6,21 +6,16 @@ var handleError;
 var async = require('async');
 
 function getLocations(req, res){
-	var query = {};
-	if(req.params.id){
-		query._id = req.params.id;
-	} 
-
-	var result = Location.find(query);
-
-	result.exec(function(err, data){
-		if(err){ return handleError(req, res, 500, err); }
-
-		// We hebben gezocht op id, dus we gaan geen array teruggeven.
-		if(req.params.id){
-			data = data[0];
+	Location.get({
+		filter: req.query,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.setHeader('Content-Type', 'application/json');
+				res.send(JSON.stringify(data, null, '\t'));
+			}
 		}
-		res.json(data);
 	});
 }
 

@@ -11,6 +11,9 @@ function getRaces(req, res){
 		callback: function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
+				
+				data.pagination = true;
+				console.log(data);
 				res.status(201);
 				res.setHeader('Content-Type', 'application/json');
 				res.send(JSON.stringify(data, null, '\t'));
@@ -144,7 +147,10 @@ router.get('/', function(req, res, next) {
   res.render('races', { title: 'Express' });
 });
 
+//router.route('/:pagenr').get(getAuthors);
+
 router.route('/me').get(getMyRaces);
+
 router.route('/notme').get(getNotMyRaces);
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);

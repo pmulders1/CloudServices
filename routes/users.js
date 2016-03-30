@@ -24,7 +24,7 @@ function addUser(req, res){
 	User.add({
 		data: req.body,
 		callback: function(err, data){
-			console.log(err);
+			console.log('hi ' + err);
 			if(err){ return handleError(req, res, 500, err); }
 			else{
 				res.status(201);

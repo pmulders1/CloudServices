@@ -103,7 +103,9 @@ function getLocations (id) {
 			$('#raceDetails').html(tableContent);
         },
         error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+            $.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
         }
     });
 }
@@ -132,7 +134,9 @@ function tagLocation(event){
 			socket.emit('updated', data);
         },
         error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+            $.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
         }
     });
 }
@@ -158,7 +162,9 @@ function joinRace(event){
 			// Deze uit de lijst halen en andere lijst updaten.
         },
         error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+            $.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
         }
     });
 }

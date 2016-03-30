@@ -33,7 +33,6 @@ function createUser(event){
 		'email': $('#crEmail').val(),
 		'password': $('#crPassword').val()
 	}
-	console.log(data);
 	$.ajax({
 		type: 'POST',
 		data: data,
@@ -48,7 +47,9 @@ function createUser(event){
 			socket.emit('updated', data);
 			$('#createForm').find('input:text').val('');
 		}, error: function(err){
-			utilities.showMessageBox('alert-danger', '#messageBox', err.message);
+			$.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
 		}
 	});
 }
@@ -83,7 +84,9 @@ function updateUser(event){
 			$('#updateForm').find('input:text').val('');
         },
         error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+            $.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
         }
     });
 }
@@ -102,7 +105,9 @@ function deleteUser(event){
 			socket.emit('updated', data);
 		},
 		error: function(err){
-            utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
+            $.each(err.responseJSON.errors, function(index, item){
+				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+			});
         }
 	});
 }

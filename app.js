@@ -4,6 +4,10 @@
     Documentatie voor de api?
     Wil je niet dat mensen een race joinen VOORDAT die begint
     Standaard admin wachtwoord gaat niet goed
+    validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update
+    We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race
+        -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
+
 
     TODO
     Middleware terugsturen statuscode/html
@@ -80,14 +84,10 @@ var races = require('./routes/races')(mongoose, handleError);
 var locations = require('./routes/locations')(mongoose, handleError);
 // /Routes
 
-
-
 app.use('/', routes);
 app.use('/races', races);
 app.use('/users', users);
 app.use('/locations', locations);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,7 +5,7 @@ function init(mongoose){
 	ObjectId = schema.ObjectId;
 
 	schema = mongoose.Schema({
-		name: {type: String, unique: true},
+		name: {type: String, unique: [true, "Please enter a unique name"]},
 		hasStarted : {type: Boolean, default:false },
 		locations: [{
 			type: mongoose.Schema.Types.ObjectId, ref: "Location"
@@ -27,11 +27,16 @@ function init(mongoose){
 		return this.name.length > 2;
 	}, 'Name should be at least 3 characters long.');
 
-	schema.path('hasStarted').validate(function(locations){
-	    if(!locations){return false}
-	    else if(locations.length === 0){return false}
-	    return true;
-	}, 'Race must have at least one locations before it can be started');
+	// schema.pre('update', function() {
+	//   	console.log(this.hasStarted);
+	//   	console.log(this.name);
+	// });
+
+	// schema.path('hasStarted').validate(function(locations){
+	//     if(!locations){return false}
+	//     else if(locations.length === 0){return false}
+	//     return true;
+	// }, 'Race must have at least one locations before it can be started');
 
 	// Virtuals 
 	schema.virtual('count.users').get(function () {
@@ -41,11 +46,22 @@ function init(mongoose){
 	schema.virtual('count.locations').get(function () {
 		return this.locations.length;
 	});
-	// /Virtuals 
+	// /Virtuals
 
 	// Statics 
 	schema.statics.get = function(options){
-		return this.find(options.filter).populate('users').populate('locations').exec(options.callback);
+		var itemsPerPage = 20;
+		var pagenr = 1;
+		
+		if(options.filter.pagenr && options.filter.itemsPerPage){
+			pagenr = options.filter.pagenr;
+			itemsPerPage = options.filter.itemsPerPage;
+		}
+		delete options.filter.pagenr;
+		delete options.filter.itemsPerPage;
+
+		var itemsToSkip = (pagenr - 1) * itemsPerPage;
+		return this.find(options.filter).populate('users').populate('locations').skip(itemsToSkip).limit(itemsPerPage).exec(options.callback);
 	};
 
 	schema.statics.getJoinedRaces = function(options){

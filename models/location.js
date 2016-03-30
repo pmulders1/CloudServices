@@ -13,9 +13,23 @@ function init(mongoose){
 		return this.name.length > 2;
 	}, 'Name should be at least 3 characters long.');
 
+	// Statics 
+	schema.statics.get = function(options){
+		var itemsPerPage = 20;
+		var pagenr = 1;
+		
+		if(options.filter.pagenr && options.filter.itemsPerPage){
+			pagenr = options.filter.pagenr;
+			itemsPerPage = options.filter.itemsPerPage;
+		}
+		delete options.filter.pagenr;
+		delete options.filter.itemsPerPage;
+
+		var itemsToSkip = (pagenr - 1) * itemsPerPage;
+		return this.find(options.filter).populate('users').skip(itemsToSkip).limit(itemsPerPage).exec(options.callback);
+	};
+
 	schema.statics.tagUser = function(options){
-		console.log(options.data);
-		console.log('-----');
 		this.where('_id', options.data._id).update({$addToSet: {users: options.data.user_id}}, options.callback);
 	}
 

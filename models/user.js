@@ -1,7 +1,7 @@
 function init(mongoose, bcrypt){
 	console.log('Initializing user schema');
 	var schema = mongoose.Schema({
-		username : { type: String, required: true},
+		username : { type: String, required: [true, "Please enter a valid username"]},
 		roles: [{type: String }],
 		local            : {
 	        email        : String,
@@ -64,7 +64,18 @@ function init(mongoose, bcrypt){
 
 	// Statics
 	schema.statics.get = function(options){
-		return this.find(options.filter).exec(options.callback);
+		var itemsPerPage = 20;
+		var pagenr = 1;
+		
+		if(options.filter.pagenr && options.filter.itemsPerPage){
+			pagenr = options.filter.pagenr;
+			itemsPerPage = options.filter.itemsPerPage;
+		}
+		delete options.filter.pagenr;
+		delete options.filter.itemsPerPage;
+
+		var itemsToSkip = (pagenr - 1) * itemsPerPage;
+		return this.find(options.filter).skip(itemsToSkip).limit(itemsPerPage).exec(options.callback);
 	};
 
 	schema.statics.add = function(options){
