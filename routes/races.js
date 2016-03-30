@@ -6,17 +6,22 @@ var handleError;
 var async = require('async');
 
 function getRaces(req, res){
-	Race.get({
-		filter: req.query,
-		callback: function(err, data){
-			if(err){ return handleError(req, res, 500, err); }
-			else {
-				res.status(201);
-				res.setHeader('Content-Type', 'application/json');
-				res.send(JSON.stringify(data, null, '\t'));
+	console.log(req.headers.accept);
+	if(req.headers.accept.indexOf("application/json") > -1){
+		Race.get({
+			filter: req.query,
+			callback: function(err, data){
+				if(err){ return handleError(req, res, 500, err); }
+				else {
+					res.status(201);
+					res.setHeader('Content-Type', 'application/json');
+					res.send(JSON.stringify(data, null, '\t'));
+				}
 			}
-		}
-	});
+		});
+	}else{
+		res.render('races', { title: 'Races view' });
+	}
 }
 
 function addRace(req, res){
@@ -140,10 +145,6 @@ function getNotMyRaces(req, res){
 }
 
 // Routing
-router.get('/view', function(req, res, next) {
-	res.render('races', { title: 'Express' });
-});
-
 router.route('/').get(getRaces).post(addRace);
 
 //router.route('/:pagenr').get(getAuthors);

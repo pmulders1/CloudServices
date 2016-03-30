@@ -86,7 +86,7 @@ function getLocations (id) {
         url: '/races/' + id,
         data: data,
         success: function( data, status ) {
-			// Deze uit de lijst halen en andere lijst updaten.
+			
 			var tableContent = '';
 			$.each(data[0].locations, function(index, item){
 				tableContent += '<tr>'
@@ -158,7 +158,7 @@ function joinRace(event){
 				message: 'User joined race!'
 			}
 			socket.emit('updated', data);
-			// Deze uit de lijst halen en andere lijst updaten.
+			
         },
         error: function(err){
             $.each(err.responseJSON.errors, function(index, item){
