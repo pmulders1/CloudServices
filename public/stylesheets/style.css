@@ -8,3 +8,15 @@
 #map {
     height: 50%;
 }
+#raceLocations{
+	display: none;
+}
+.floatLeft{
+	float:left;
+}
+.floatRight{
+	float:right;
+}
+.top25{
+	margin-top: 25px;
+}

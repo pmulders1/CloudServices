@@ -4,61 +4,79 @@
 </div>
 
 <div class="row">
-    <!-- LOCAL INFORMATION -->
-    <div class="col-sm-6">
-        <div class="well">
-            <h3><span class="fa fa-user"></span> Local</h3>
-                <input type="hidden" id="userId" value="{{ user._id }}">
-                <p>
-                    <strong>id</strong>: {{ user._id }}<br>
-                    <strong>email</strong>: {{ user.local.email }}<br>
-                </p>
+    <div id="profile">
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+                    <input type="hidden" id="userId" value="{{ user._id }}">
+                    <p>
+                        <strong>id</strong>: {{ user._id }}<br>
+                        <strong>email</strong>: {{ user.local.email }}<br>
+                    </p>
 
+            </div>
+        </div>
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+                    <p>
+                        <strong>id</strong>: {{  user.google.id }}<br>
+                        <strong>token</strong>: {{  user.google.token }}<br>
+                        <strong>email</strong>: {{  user.google.email }}<br>
+                        <strong>name</strong>: {{  user.google.name }}
+                    </p>
+
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h1>Join Race</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Race in progress</th>
+                        <th>Nr. of checkpoints</th>
+                        <th>Nr. of participants</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody id="notMeRaces">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <h1>Joinend Races</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Race in progress</th>
+                        <th>Nr. of checkpoints</th>
+                        <th>Nr. of participants</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody id="meRaces">
+                </tbody>
+            </table>
         </div>
     </div>
-    <!-- GOOGLE INFORMATION -->
-    <div class="col-sm-6">
-        <div class="well">
-            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                <p>
-                    <strong>id</strong>: {{  user.google.id }}<br>
-                    <strong>token</strong>: {{  user.google.token }}<br>
-                    <strong>email</strong>: {{  user.google.email }}<br>
-                    <strong>name</strong>: {{  user.google.name }}
-                </p>
-
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <h1>Join Race</h1>
+    <div class="col-sm-12" id="raceLocations">
+        <h1 class="floatLeft">Play Race</h1>
+        <input type="hidden" id="raceId" value="">
+        <a href="#" id="backBtn" class="btn btn-default btn-sm floatRight top25">Back</a>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Race in progress</th>
-                    <th>Nr. of checkpoints</th>
-                    <th>Nr. of participants</th>
+                    <th>Address</th>
                     <th>Options</th>
                 </tr>
             </thead>
-            <tbody id="notMeRaces">
-            </tbody>
-        </table>
-    </div>
-    <div class="col-sm-6">
-        <h1>Joinend Races</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Race in progress</th>
-                    <th>Nr. of checkpoints</th>
-                    <th>Nr. of participants</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody id="meRaces">
+            <tbody id="raceDetails">
             </tbody>
         </table>
     </div>

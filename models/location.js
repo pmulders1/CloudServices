@@ -8,6 +8,17 @@ function init(mongoose){
 			type: mongoose.Schema.Types.ObjectId, ref: "User"
 		}]
 	});
+
+	schema.path('name').validate(function(){
+		return this.name.length > 2;
+	}, 'Name should be at least 3 characters long.');
+
+	schema.statics.tagUser = function(options){
+		console.log(options.data);
+		console.log('-----');
+		this.where('_id', options.data._id).update({$addToSet: {users: options.data.user_id}}, options.callback);
+	}
+
 	mongoose.model('Location', schema);
 }
 

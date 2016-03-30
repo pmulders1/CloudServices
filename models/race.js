@@ -22,6 +22,16 @@ function init(mongoose){
 		}
 	});
 
+	// Validation
+	schema.path('name').validate(function(){
+		return this.name.length > 2;
+	}, 'Name should be at least 3 characters long.');
+
+	schema.path('hasStarted').validate(function(locations){
+	    if(!locations){return false}
+	    else if(locations.length === 0){return false}
+	    return true;
+	}, 'Race must have at least one locations before it can be started');
 
 	// Virtuals 
 	schema.virtual('count.users').get(function () {

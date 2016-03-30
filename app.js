@@ -6,12 +6,14 @@
     Standaard admin wachtwoord gaat niet goed
 
     TODO
-    Locatie kunnen taggen
-    Tests
     Middleware terugsturen statuscode/html
     Validation
+    Tests
     pagination
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
+
+    EXTRA:
+    Locatie taggen op GEO
 */
 
 var express = require('express');

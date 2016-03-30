@@ -30,6 +30,16 @@ function init(mongoose, bcrypt){
 			virtuals: true
 		}
 	});
+
+	// Validation
+	schema.path('username').validate(function(){
+		return this.username.length > 2;
+	}, 'Name should be at least 3 characters long.');
+
+	schema.path('local.email').validate(function(){
+		return this.local.email.length > 2;
+	}, 'Please enter a valid email address');
+
 	schema.pre("save",function(next) {
 		if (this.roles.indexOf("user") == -1){
 			this.roles.push("user");

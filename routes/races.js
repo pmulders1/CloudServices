@@ -127,7 +127,6 @@ function getMyRaces(req, res){
 }
 
 function getNotMyRaces(req, res){
-	
 	Race.getNotJoinedRaces({
 		_id: req.user._id,
 		callback: function(err, data){

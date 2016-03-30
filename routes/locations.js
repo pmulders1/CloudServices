@@ -24,6 +24,21 @@ function getLocations(req, res){
 	});
 }
 
+function tagUser(req, res){
+	console.log(req.body);
+	console.log('-----');
+	Location.tagUser({
+		data: req.body,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.get('/', function(req, res, next) {
   res.render('locations', { title: 'Express' });
@@ -34,6 +49,8 @@ router.route('/all')
 
 router.route('/:id')
 	.get(getLocations);
+
+router.route('/:id/tag').put(tagUser);
 
 // Export
 module.exports = function (mongoose, errCallback){
