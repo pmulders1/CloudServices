@@ -7,7 +7,6 @@
     validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update
     We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race
         -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
-    Is in races routes me en notme wel restful
 
     TODO
     Middleware terugsturen statuscode/html -> admin en user middelware zetten
@@ -15,9 +14,6 @@
     Tests
     pagination
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
-
-    EXTRA:
-    Locatie taggen op GEO
 */
 module.exports = function(cnfg){
     var express = require('express');
@@ -51,7 +47,9 @@ module.exports = function(cnfg){
     }
 
     // Data Access Layer
-    mongoose.connect(config.url);
+    if(mongoose.connection.readyState === 0){
+        mongoose.connect(config.url);
+    }
     require('./public/javascripts/passport')(passport); // pass passport for configuration
 
     // uncomment after placing your favicon in /public
@@ -90,7 +88,7 @@ module.exports = function(cnfg){
     var locations = require('./routes/locations')(mongoose, handleError);
     // /Routes
 
-    app.use('/', routes);
+    app.use('/',  routes);
     app.use('/races', races);
     app.use('/users', users);
     app.use('/locations', locations);

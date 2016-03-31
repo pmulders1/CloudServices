@@ -4,6 +4,7 @@ var request;
 function makeGetRequest(route, statusCode, done){
 	request(app)
 		.get(route)
+		.set('Accept', 'application/json')
 		.expect(statusCode)
 		.end(function(err, res){
 
@@ -14,6 +15,7 @@ function makeGetRequest(route, statusCode, done){
 function makePostRequest(route, body, statusCode, done){
 	request(app)
 		.post(route)
+		.set('Accept', 'application/json')
 		.type('json')
 		.send(body)
 		.expect(statusCode)
