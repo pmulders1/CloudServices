@@ -8,8 +8,8 @@ var mongoose = require('mongoose');
 	ObjectId = schema.ObjectId;
 
 	schema = mongoose.Schema({
-		name: {type: String, unique: [true, "Please enter a unique name"]},
-		hasStarted : {type: Boolean, default:false },
+		name: { type: String, unique: [true, "Please enter a unique name"]},
+		hasStarted : { type: Boolean, default:false },
 		locations: [{
 			type: mongoose.Schema.Types.ObjectId, ref: "Location"
 		}],
@@ -30,6 +30,15 @@ var mongoose = require('mongoose');
 		return this.name.length > 2;
 	}, 'Name should be at least 3 characters long.');
 
+	schema.path('hasStarted').validate(function(){
+
+		if(this.hasStarted){
+			return this.locations.length > 0;
+		}
+
+		return true;
+	}, 'Race must have at least one location');
+
 	// Virtuals 
 	schema.virtual('count.users').get(function () {
 		return this.users.length;
@@ -42,7 +51,6 @@ var mongoose = require('mongoose');
 
 	// Statics 
 	schema.statics.get = function(options){
-
 		var itemsPerPage = 20;
 		var pagenr = 1;
 		
@@ -63,6 +71,7 @@ var mongoose = require('mongoose');
 	}
 
 	schema.statics.add = function(options){
+		options.data.state = "notready"
 		options.data.save(options.callback)
 	}
 
@@ -70,17 +79,19 @@ var mongoose = require('mongoose');
 		var loc = mongoose.model('Location');
 		var rac = mongoose.model('Race');
 		var temp = this.findOne({_id: options._id}).populate('users').populate('locations').exec(function(err, data){
-			
 			data.locations.forEach(function(record){
 				loc.remove({_id: record.id}).exec();
 		    });
-
 		    rac.remove({_id: options._id}, options.callback);
 		});
 	}
 
 	schema.statics.update = function(options){
-		this.where('_id', options.data._id).update({$set: {name: options.data.name, hasStarted: options.data.hasStarted}}, options.callback);
+		this.findOne({_id: options.data._id}).populate('users').populate('locations').exec(function(err, doc){
+			doc.name = options.data.name;
+			doc.hasStarted = options.data.hasStarted;
+			doc.save(options.callback);
+		});
 	}
 	
 	schema.statics.removeParticipant = function(options){
@@ -92,7 +103,7 @@ var mongoose = require('mongoose');
 		location.name = options.data.place_name;
 		location.address = options.data.place_address;
 		location.save();
-		this.where('_id', options.data._id).update({$addToSet: {locations: location._id}}, options.callback);
+		this.where('_id', options.data._id).update({$addToSet: { locations: location._id }}, options.callback);
 	}
 	schema.statics.removeLocation = function(options){
 		var location =  mongoose.model('Location');
@@ -107,7 +118,6 @@ var mongoose = require('mongoose');
 					message: "You cant join a race that has already started."
 				}
 			}
-			
 			if(err){
 				options.error(err, data[0]);
 			} else {
