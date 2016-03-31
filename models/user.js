@@ -1,4 +1,6 @@
-function init(mongoose, bcrypt){
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt-nodejs');
+
 	console.log('Initializing user schema');
 	var schema = mongoose.Schema({
 		username : { type: String, required: [true, "Please enter a valid username"]},
@@ -95,6 +97,5 @@ function init(mongoose, bcrypt){
 	}
 	// /Statics
 	mongoose.model('User', schema);
-}
 
-module.exports = init;
+//module.exports = init;

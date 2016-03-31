@@ -137,7 +137,7 @@ router.route('/').get(getRaces).post(addRace);
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 
-router.route('/:id/participant').delete(deleteParticipantRace).put(joinRace);
+router.route('/:id/participant/').delete(deleteParticipantRace).put(joinRace);
 
 router.route('/:id/location').put(addLocation).delete(deleteLocationRace);
 

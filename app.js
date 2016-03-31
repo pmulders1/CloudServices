@@ -1,7 +1,6 @@
 /*
     Authenticatie op de high level routes? -> in app.js en in de router
     validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update -> validatie op een state
-    We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race -> 
         -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
 
     TODO
@@ -35,9 +34,9 @@ module.exports = function(cnfg){
     var app = express();
 
     // Models
-    require('./models/race')(mongoose);
-    require('./models/user')(mongoose, bcrypt);
-    require('./models/location')(mongoose);
+    require('./models/race');
+    require('./models/user');
+    require('./models/location');
 
     var config;
     if(cnfg){

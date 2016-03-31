@@ -1,4 +1,7 @@
-function init(mongoose){
+var mongoose = require('mongoose');
+    
+
+//function init(mongoose){
 	console.log('Initializing race schema');
 
 	var schema = mongoose.Schema,
@@ -27,17 +30,6 @@ function init(mongoose){
 		return this.name.length > 2;
 	}, 'Name should be at least 3 characters long.');
 
-	// schema.pre('update', function() {
-	//   	console.log(this.hasStarted);
-	//   	console.log(this.name);
-	// });
-
-	// schema.path('hasStarted').validate(function(locations){
-	//     if(!locations){return false}
-	//     else if(locations.length === 0){return false}
-	//     return true;
-	// }, 'Race must have at least one locations before it can be started');
-
 	// Virtuals 
 	schema.virtual('count.users').get(function () {
 		return this.users.length;
@@ -58,8 +50,8 @@ function init(mongoose){
 			pagenr = options.filter.pagenr;
 			itemsPerPage = options.filter.itemsPerPage;
 		}
-		//delete options.filter.pagenr;
-		//delete options.filter.itemsPerPage;
+		delete options.filter.pagenr;
+		delete options.filter.itemsPerPage;
 
 		var itemsToSkip = (pagenr - 1) * itemsPerPage;
 		
@@ -125,6 +117,7 @@ function init(mongoose){
 	}
 	// /Statics
 	mongoose.model('Race', schema);
-}
+//}
 
-module.exports = init;
+//init();
+//module.exports = init;

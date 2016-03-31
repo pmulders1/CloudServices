@@ -1,4 +1,5 @@
-function init(mongoose){
+var mongoose = require('mongoose');
+
 	console.log('Initializing location schema');
 	var schema = mongoose.Schema({
 		place_id: { type: String, required: true },
@@ -47,6 +48,3 @@ function init(mongoose){
 	}
 
 	mongoose.model('Location', schema);
-}
-
-module.exports = init;
