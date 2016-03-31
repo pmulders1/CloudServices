@@ -5,8 +5,8 @@ function init(mongoose){
 	ObjectId = schema.ObjectId;
 
 	schema = mongoose.Schema({
-		name: {type: String, unique: [true, "Please enter a unique name"]},
-		hasStarted : {type: Boolean, default:false },
+		name: { type: String, unique: [true, "Please enter a unique name"]},
+		hasStarted : { type: Boolean, default:false },
 		locations: [{
 			type: mongoose.Schema.Types.ObjectId, ref: "Location"
 		}],
@@ -27,16 +27,16 @@ function init(mongoose){
 		return this.name.length > 2;
 	}, 'Name should be at least 3 characters long.');
 
-	// schema.pre('update', function() {
-	//   	console.log(this.hasStarted);
-	//   	console.log(this.name);
-	// });
+	schema.path('hasStarted').validate(function(){
+		console.log(this);
+		console.log('Editing the hasStarted ('+this.hasStarted+') with locations length of ' + this.locations.length)
 
-	// schema.path('hasStarted').validate(function(locations){
-	//     if(!locations){return false}
-	//     else if(locations.length === 0){return false}
-	//     return true;
-	// }, 'Race must have at least one locations before it can be started');
+		if(this.hasStarted){
+			return this.locations.length > 0;
+		}
+
+		return true;
+	}, 'Race must have at least one location');
 
 	// Virtuals 
 	schema.virtual('count.users').get(function () {
@@ -50,7 +50,6 @@ function init(mongoose){
 
 	// Statics 
 	schema.statics.get = function(options){
-
 		var itemsPerPage = 20;
 		var pagenr = 1;
 		
@@ -58,8 +57,8 @@ function init(mongoose){
 			pagenr = options.filter.pagenr;
 			itemsPerPage = options.filter.itemsPerPage;
 		}
-		//delete options.filter.pagenr;
-		//delete options.filter.itemsPerPage;
+		delete options.filter.pagenr;
+		delete options.filter.itemsPerPage;
 
 		var itemsToSkip = (pagenr - 1) * itemsPerPage;
 		
@@ -71,6 +70,8 @@ function init(mongoose){
 	}
 
 	schema.statics.add = function(options){
+		console.log(options.data)
+		options.data.state = "notready"
 		options.data.save(options.callback)
 	}
 
@@ -78,17 +79,19 @@ function init(mongoose){
 		var loc = mongoose.model('Location');
 		var rac = mongoose.model('Race');
 		var temp = this.findOne({_id: options._id}).populate('users').populate('locations').exec(function(err, data){
-			
 			data.locations.forEach(function(record){
 				loc.remove({_id: record.id}).exec();
 		    });
-
 		    rac.remove({_id: options._id}, options.callback);
 		});
 	}
 
 	schema.statics.update = function(options){
-		this.where('_id', options.data._id).update({$set: {name: options.data.name, hasStarted: options.data.hasStarted}}, options.callback);
+		this.findOne({_id: options.data._id}).populate('users').populate('locations').exec(function(err, doc){
+			doc.name = options.data.name;
+			doc.hasStarted = options.data.hasStarted;
+			doc.save(options.callback);
+		});
 	}
 	
 	schema.statics.removeParticipant = function(options){
@@ -100,7 +103,7 @@ function init(mongoose){
 		location.name = options.data.place_name;
 		location.address = options.data.place_address;
 		location.save();
-		this.where('_id', options.data._id).update({$addToSet: {locations: location._id}}, options.callback);
+		this.where('_id', options.data._id).update({$addToSet: { locations: location._id }}, options.callback);
 	}
 	schema.statics.removeLocation = function(options){
 		var location =  mongoose.model('Location');
@@ -115,7 +118,6 @@ function init(mongoose){
 					message: "You cant join a race that has already started."
 				}
 			}
-			
 			if(err){
 				options.error(err, data[0]);
 			} else {
