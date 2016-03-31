@@ -28,6 +28,8 @@ function tagUser(req, res){
 				res.status(201);
 				res.json(data);
 			}
+		}, error: function(err, data){
+			return handleError(req, res, 500, err);
 		}
 	});
 }

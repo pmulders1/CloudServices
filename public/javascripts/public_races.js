@@ -53,7 +53,7 @@ function populateRaceTable(callBack){
 			if(this.hasStarted){
 				tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="playRace" rel="' + this._id + '"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a></td>';
 			}else{
-				tableContent += '<td></td>'
+				tableContent += '<td></td>';
 			}
             tableContent += '</tr>';
 		});
@@ -134,11 +134,10 @@ function tagLocation(event){
 				id: $('#raceId').val()
 			}
 			socket.emit('updated', data);
+			console.log(data);
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+        	utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);
         }
     });
 }

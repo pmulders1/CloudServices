@@ -30,7 +30,20 @@ function init(mongoose){
 	};
 
 	schema.statics.tagUser = function(options){
-		this.where('_id', options.data._id).update({$addToSet: {users: options.data.user_id}}, options.callback);
+		var loc = mongoose.model('Location');
+		var race = mongoose.model('Race');
+		race.findOne({_id: options.data.race_id}).populate('users').populate('locations').exec(function(err, data){
+			if(!data.hasStarted){
+				err = {
+					message: "You can't tag a location when race hasn't started"
+				}
+			}
+			if(err){
+				options.error(err, data);
+			}else{
+				loc.where('_id', options.data._id).update({$addToSet: {users: options.data.user_id}}, options.callback);
+			}
+		});
 	}
 
 	mongoose.model('Location', schema);
