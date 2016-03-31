@@ -14,8 +14,8 @@ $(document).ready(function(){
 function populateUserTable(){
 	var tableContent = '';
 	$.getJSON('/users/', function(data){
-		userList = data;
-		$.each(data, function(){
+		userList = data.data;
+		$.each(data.data, function(){
 			tableContent += '<tr>';
             tableContent += '<td>' + this.username + '</td>';
             tableContent += '<td><a href="#" class="btn btn-default btn-sm right5" id="upUser" rel="' + this._id + '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><a href="#" class="btn btn-default btn-sm" id="deUser" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
@@ -46,6 +46,7 @@ function createUser(event){
 			}
 			socket.emit('updated', data);
 			$('#createForm').find('input:text').val('');
+			$('#crPassword').val('');
 		}, error: function(err){
 			$.each(err.responseJSON.errors, function(index, item){
 				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
@@ -60,6 +61,7 @@ function showUser(event){
     var user = userList[arrayPosition];
 
     $('#upUsername').val(user.username);
+    $('#upEmail').val(user.local.email);
     $('#upId').val(user._id);
 }
 
@@ -67,7 +69,8 @@ function updateUser(event){
 	event.preventDefault();
 	var data = {
 	 		'_id': $('#upId').val(),
-            'username': $('#upUsername').val()
+            'username': $('#upUsername').val(),
+            'email': $('#upEmail').val()
     }
     $.ajax({
         type: 'PUT',
@@ -84,9 +87,7 @@ function updateUser(event){
 			$('#updateForm').find('input:text').val('');
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+        	utilities.showMessageBox('alert-danger', '#messageBox', err.statusText);
         }
     });
 }
