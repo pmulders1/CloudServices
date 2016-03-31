@@ -18,6 +18,11 @@ function getRaces(req, res){
 			callback: function(err, data){
 				if(err){ return handleError(req, res, 500, err); }
 				else {
+					var data = {
+						data: data,
+						pagenr: data.pagenr,
+						itemsPerPage: data.itemsPerPage
+					};
 					res.status(201);
 					res.setHeader('Content-Type', 'application/json');
 					res.send(JSON.stringify(data, null, '\t'));

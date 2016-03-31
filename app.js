@@ -1,7 +1,5 @@
 /*
     Authenticatie op de high level routes? -> in app.js en in de router
-    validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update -> validatie op een state
-        -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
 
     TODO
     Middleware terugsturen statuscode/html -> admin en user middelware zetten

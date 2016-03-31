@@ -23,8 +23,8 @@ function populateRaceTable(callBack){
 	var tableContent2 = '';
 	var _id = $('#userId').val();
 	$.getJSON('/races/', function(data){
-		raceList = data;
-		$.each(data, function(){
+		raceList = data.data;
+		$.each(data.data, function(){
 
 			var showItem = !this.hasStarted;
 			$.each(this.users, function(index, item){
@@ -38,8 +38,8 @@ function populateRaceTable(callBack){
 				tableContent2 += '<tr>';
 	            tableContent2 += '<td>' + this.name + '</td>';
 				tableContent2 += '<td>' + this.hasStarted + '</td>';
-				tableContent2 += '<td>' + this.count.locations + '</td>';
-				tableContent2 += '<td>' + this.count.users + '</td>';
+				tableContent2 += '<td>' + this.locations.length + '</td>';
+				tableContent2 += '<td>' + this.users.length + '</td>';
 	            tableContent2 += '<td><a href="#" class="btn btn-default btn-sm" id="joinRace" rel="' + this._id + '"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></td>';
 	            tableContent2 += '</tr>';
         	}
@@ -100,9 +100,8 @@ function getLocations (id) {
         dataType: "json",
         data: data,
         success: function( data, status ) {
-			console.log(data);
 			var tableContent = '';
-			$.each(data[0].locations, function(index, item){
+			$.each(data.data[0].locations, function(index, item){
 				tableContent += '<tr>'
 				tableContent += '<td>' + item.name + '</td>'
 				tableContent += '<td>' + item.address + '</td>'

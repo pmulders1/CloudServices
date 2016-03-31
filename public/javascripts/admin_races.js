@@ -25,13 +25,13 @@ function populateRaceTable(callBack){
 	var tableContent = '';
 	
 	$.getJSON('/races/', function(data){
-		raceList = data;
-		$.each(data, function(index){
+		raceList = data.data;
+		$.each(data.data, function(index){
 			tableContent += '<tr>';
             tableContent += '<td>' + this.name + '</td>';
 			tableContent += '<td>' + this.hasStarted + '</td>';
-			tableContent += '<td>' + this.count.locations + '</td>';
-			tableContent += '<td>' + this.count.users + '</td>';
+			tableContent += '<td>' + this.locations.length + '</td>';
+			tableContent += '<td>' + this.users.length + '</td>';
             tableContent += '<td><a href="#" class="btn btn-default btn-sm right5" id="upRace" rel="' + this._id + '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><a href="#" class="btn btn-default btn-sm" id="deRace" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
             tableContent += '</tr>';
 		});

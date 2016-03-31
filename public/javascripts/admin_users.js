@@ -14,8 +14,9 @@ $(document).ready(function(){
 function populateUserTable(){
 	var tableContent = '';
 	$.getJSON('/users/', function(data){
-		userList = data;
-		$.each(data, function(){
+		console.log(data);
+		userList = data.data;
+		$.each(data.data, function(){
 			tableContent += '<tr>';
             tableContent += '<td>' + this.username + '</td>';
             tableContent += '<td><a href="#" class="btn btn-default btn-sm right5" id="upUser" rel="' + this._id + '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><a href="#" class="btn btn-default btn-sm" id="deUser" rel="' + this._id + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>';
@@ -84,9 +85,7 @@ function updateUser(event){
 			$('#updateForm').find('input:text').val('');
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+        	utilities.showMessageBox('alert-danger', '#messageBox', err.statusText);
         }
     });
 }
