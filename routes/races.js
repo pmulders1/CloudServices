@@ -5,6 +5,12 @@ var _ = require('underscore');
 var handleError;
 var async = require('async');
 
+
+/**
+ * Gets a race.
+ * @param {string} request - The request.
+ * @param {string} response - The reponse.
+ */
 function getRaces(req, res){
 	if(req.headers.accept.indexOf("application/json") > -1){
 		Race.get({
