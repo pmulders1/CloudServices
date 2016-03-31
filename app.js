@@ -3,9 +3,7 @@
 
     TODO
     Middleware terugsturen statuscode/html -> admin en user middelware zetten
-    Validation
     Tests
-    pagination
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
     Documentatie
     

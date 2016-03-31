@@ -14,7 +14,6 @@ $(document).ready(function(){
 function populateUserTable(){
 	var tableContent = '';
 	$.getJSON('/users/', function(data){
-		console.log(data);
 		userList = data.data;
 		$.each(data.data, function(){
 			tableContent += '<tr>';
@@ -47,6 +46,7 @@ function createUser(event){
 			}
 			socket.emit('updated', data);
 			$('#createForm').find('input:text').val('');
+			$('#crPassword').val('');
 		}, error: function(err){
 			$.each(err.responseJSON.errors, function(index, item){
 				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
@@ -61,6 +61,7 @@ function showUser(event){
     var user = userList[arrayPosition];
 
     $('#upUsername').val(user.username);
+    $('#upEmail').val(user.local.email);
     $('#upId').val(user._id);
 }
 
@@ -68,7 +69,8 @@ function updateUser(event){
 	event.preventDefault();
 	var data = {
 	 		'_id': $('#upId').val(),
-            'username': $('#upUsername').val()
+            'username': $('#upUsername').val(),
+            'email': $('#upEmail').val()
     }
     $.ajax({
         type: 'PUT',
