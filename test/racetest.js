@@ -21,7 +21,7 @@ describe('Testing race route', function(){
     });
 
 	it('should create one race', function(done){
-		testHelper.makePostRequest('/races/add', testrace,200, function(err, res){
+		testHelper.makePostRequest('/races/', testrace,200, function(err, res){
 			if(err){ return done(err); }
 			expect(res.body.name).to.equal(testrace.name);
             expect(res.body.hasStarted).to.equal(testrace.hasStarted);
@@ -29,7 +29,7 @@ describe('Testing race route', function(){
 		});
 	});
 	it('should return list off race', function(done){
-		testHelper.makeGetRequest('/races/all', 200, function(err, res){
+		testHelper.makeGetRequest('/races/', 200, function(err, res){
 			if(err){ return done(err); }
 			expect(res.body[0].name).to.equal(testrace.name);
             expect(res.body[0].hasStarted).to.equal(testrace.hasStarted);
@@ -38,6 +38,14 @@ describe('Testing race route', function(){
 		});
 	});
 	it('should update a races', function(done){
+		testrace.name = "Nieuwetocht"
+		testHelper.makePutRequest('/races/' + testrace._id, testrace,200, function(err, res){
+			if(err){ return done(err); }
+			expect(res.body.ok).to.equal(1);
+			done();
+		});
+	});
+	it('should return races that current user is not praticipating', function(done){
 		testrace.name = "Nieuwetocht"
 		testHelper.makePutRequest('/races/' + testrace._id, testrace,200, function(err, res){
 			if(err){ return done(err); }

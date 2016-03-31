@@ -50,6 +50,7 @@ function init(mongoose){
 
 	// Statics 
 	schema.statics.get = function(options){
+
 		var itemsPerPage = 20;
 		var pagenr = 1;
 		
@@ -57,22 +58,16 @@ function init(mongoose){
 			pagenr = options.filter.pagenr;
 			itemsPerPage = options.filter.itemsPerPage;
 		}
-		delete options.filter.pagenr;
-		delete options.filter.itemsPerPage;
+		//delete options.filter.pagenr;
+		//delete options.filter.itemsPerPage;
 
 		var itemsToSkip = (pagenr - 1) * itemsPerPage;
+		
 		return this.find(options.filter).populate('users').populate('locations').skip(itemsToSkip).limit(itemsPerPage).exec(options.callback);
 	};
 
 	schema.statics.getJoinedRaces = function(options){
 		return this.find({"users" : options._id}).exec(options.callback);
-	}
-
-	schema.statics.getNotJoinedRaces = function(options){
-		return this.find({ $and: [
-			{"users" : { $ne : options._id}},
-			{"hasStarted": {$ne: true}}
-		]}).exec(options.callback);
 	}
 
 	schema.statics.add = function(options){
@@ -113,7 +108,20 @@ function init(mongoose){
 		this.where('_id', options.data._id).update({$pull: {locations: options.data.itemId}}, options.callback);
 	}
 	schema.statics.joinRace = function(options){
-		this.where('_id', options.data._id).update({$addToSet: {users: options.data.userId}}, options.callback);
+		var race = mongoose.model("Race");
+		this.find({_id: options.data._id}).exec(function(err, data){
+			if(data[0].hasStarted){
+				err = {
+					message: "You cant join a race that has already started."
+				}
+			}
+			
+			if(err){
+				options.error(err, data[0]);
+			} else {
+				race.where('_id', options.data._id).update({$addToSet: {users: options.data.userId}}, options.callback);
+			}
+		});
 	}
 	// /Statics
 	mongoose.model('Race', schema);

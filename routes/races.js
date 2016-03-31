@@ -118,15 +118,8 @@ function joinRace(req, res){
 				res.status(201);
 				res.json(data);
 			}
-		}
-	});
-}
-
-function getMyRaces(req, res){
-	
-	Race.getJoinedRaces({
-		_id: req.user._id,
-		callback: function(err, data){
+		},
+		error: function(err, data){
 			if(err){ return handleError(req, res, 500, err); }
 			else {
 				res.status(201);
@@ -136,27 +129,11 @@ function getMyRaces(req, res){
 	});
 }
 
-function getNotMyRaces(req, res){
-	Race.getNotJoinedRaces({
-		_id: req.user._id,
-		callback: function(err, data){
-			if(err){ return handleError(req, res, 500, err); }
-			else {
-				res.status(201);
-				res.json(data);
-			}
-		}
-	});
-}
+//users/me/races
+//races
 
 // Routing
 router.route('/').get(getRaces).post(addRace);
-
-//router.route('/:pagenr').get(getAuthors);
-
-router.route('/me').get(getMyRaces);
-
-router.route('/notme').get(getNotMyRaces);
 
 router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express();
 var User;
+var Race;
 var _ = require('underscore');
 var handleError;
 var async = require('async');
@@ -63,8 +64,24 @@ function deleteUser(req, res){
 	});
 }
 
+function getMeRaces(req, res){
+	
+	Race.getJoinedRaces({
+		_id: req.user._id,
+		callback: function(err, data){
+			if(err){ return handleError(req, res, 500, err); }
+			else {
+				res.status(201);
+				res.json(data);
+			}
+		}
+	});
+}
+
 // Routing
 router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
+
+router.route('/me/races').get(getMeRaces);
 
 router.route('/').get(getUsers).post(addUser);
 
@@ -72,6 +89,7 @@ router.route('/').get(getUsers).post(addUser);
 module.exports = function (mongoose, errCallback){
 	console.log('Initializing user routing module');
 	User = mongoose.model('User');
+	Race = mongoose.model('Race');
 	handleError = errCallback;
 	return router;
 };

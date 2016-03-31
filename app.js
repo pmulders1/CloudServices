@@ -11,8 +11,10 @@
     pagination
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
     Documentatie
+    
     EXTRA:
     Locatie taggen op GEO
+
 */
 module.exports = function(cnfg){
     var express = require('express');
@@ -46,7 +48,9 @@ module.exports = function(cnfg){
     }
 
     // Data Access Layer
-    mongoose.connect(config.url);
+    if(mongoose.connection.readyState === 0){
+        mongoose.connect(config.url);
+    }
     require('./public/javascripts/passport')(passport); // pass passport for configuration
 
     // uncomment after placing your favicon in /public
@@ -85,7 +89,7 @@ module.exports = function(cnfg){
     var locations = require('./routes/locations')(mongoose, handleError);
     // /Routes
 
-    app.use('/', routes);
+    app.use('/',  routes);
     app.use('/races', races);
     app.use('/users', users);
     app.use('/locations', locations);
