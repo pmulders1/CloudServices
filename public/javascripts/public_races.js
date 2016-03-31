@@ -12,7 +12,6 @@ $(document).ready(function(){
 		
 		if(data.message.type === 'sublist' && $('#raceId').val() === data.message.id){
 			getLocations(data.message.id);
-			console.log('updating sublist')
 		}else{
 			populateRaceTable();
 		}
@@ -51,7 +50,11 @@ function populateRaceTable(callBack){
 			tableContent += '<td>' + this.hasStarted + '</td>';
 			tableContent += '<td>' + this.count.locations + '</td>';
 			tableContent += '<td>' + this.count.users + '</td>';
-            tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="playRace" rel="' + this._id + '"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a></td>';
+			if(this.hasStarted){
+				tableContent += '<td><a href="#" class="btn btn-default btn-sm" id="playRace" rel="' + this._id + '"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a></td>';
+			}else{
+				tableContent += '<td></td>'
+			}
             tableContent += '</tr>';
 		});
 		$('#meRaces').html(tableContent);
@@ -72,7 +75,6 @@ function playRace(event){
 	$('#profile').toggle( "slide" );
 	$('#raceLocations').toggle( "slide" );
 	$('#raceId').val($(this).attr('rel'));
-	console.log($('#raceId').val());
 	getLocations($('#raceId').val());
 }
 
@@ -84,9 +86,10 @@ function getLocations (id) {
 	$.ajax({
         type: 'GET',
         url: '/races/' + id,
+        dataType: "json",
         data: data,
         success: function( data, status ) {
-			
+			console.log(data);
 			var tableContent = '';
 			$.each(data[0].locations, function(index, item){
 				tableContent += '<tr>'

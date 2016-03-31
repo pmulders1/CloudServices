@@ -71,7 +71,7 @@ function init(mongoose){
 	schema.statics.getNotJoinedRaces = function(options){
 		return this.find({ $and: [
 			{"users" : { $ne : options._id}},
-			{"hasStarted": {$ne: false}}
+			{"hasStarted": {$ne: true}}
 		]}).exec(options.callback);
 	}
 
