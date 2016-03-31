@@ -6,7 +6,6 @@ var handleError;
 var async = require('async');
 
 function getRaces(req, res){
-	console.log(req.headers.accept);
 	if(req.headers.accept.indexOf("application/json") > -1){
 		Race.get({
 			filter: req.query,

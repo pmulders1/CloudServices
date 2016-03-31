@@ -155,6 +155,11 @@ function deleteRace(event){
 				message: 'Race is removed!'
 			}
 			socket.emit('updated', data);
+			$('#updateForm').find('input:text').val('');
+			$('#upId').val('');
+			$('#upStarted').prop('checked', false);
+			$('#raceParticipantsList').html('');
+    		$('#raceLocationsList').html('');
 		},
 		error: function(err){
             $.each(err.responseJSON.errors, function(index, item){

@@ -65,8 +65,8 @@ function fillTestUsers(callback){
 				var temp = new User();
 				temp._id = user._id;
 				temp.username = user.username;
-				temp.local.email = user.email;
-				temp.local.password = temp.generateHash(user.password);
+				temp.local.email = user.local.email;
+				temp.local.password = temp.generateHash(user.local.password);
 				temp.save(saveCallback);
 			});
 		} else{

@@ -80,7 +80,16 @@ function init(mongoose){
 	}
 
 	schema.statics.delete = function(options){
-		this.remove({_id: options._id}, options.callback);
+		var loc = mongoose.model('Location');
+		var rac = mongoose.model('Race');
+		var temp = this.findOne({_id: options._id}).populate('users').populate('locations').exec(function(err, data){
+			
+			data.locations.forEach(function(record){
+				loc.remove({_id: record.id}).exec();
+		    });
+
+		    rac.remove({_id: options._id}, options.callback);
+		});
 	}
 
 	schema.statics.update = function(options){
@@ -99,8 +108,8 @@ function init(mongoose){
 		this.where('_id', options.data._id).update({$addToSet: {locations: location._id}}, options.callback);
 	}
 	schema.statics.removeLocation = function(options){
-		var location =  mongoose.model('Location')();
-		location.remove({_id: options.data.itemId});
+		var location =  mongoose.model('Location');
+		location.remove({_id: options.data.itemId}).exec();
 		this.where('_id', options.data._id).update({$pull: {locations: options.data.itemId}}, options.callback);
 	}
 	schema.statics.joinRace = function(options){

@@ -1,13 +1,11 @@
 /*
-    Locatie - verwijder bij het uithalen van de array in races.
-    Authenticatie op de high level routes?
+    Authenticatie op de high level routes? -> in app.js en in de router
     Documentatie voor de api?
-    Wil je niet dat mensen een race joinen VOORDAT die begint
-    Standaard admin wachtwoord gaat niet goed
-    validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update
-    We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race
+    Wil je niet dat mensen een race joinen VOORDAT die begint -> voordat race joinen tijdens de race pas checken
+    validation pre update probleem in race -> http://stackoverflow.com/questions/31173516/mongoose-middleware-pre-update -> validatie op een state
+    We willen het eigenlijk niet vragen omdat het dubbel is, maar pagination in race -> 
         -> hoe voegen we toe aan de response dat dit pagination is, tot aan net hebben we lean() gebruikt maar dat weten we niet echt goed
-    Is in races routes me en notme wel restful
+    Is in races routes me en notme wel restful -> veranderen van naam
 
     TODO
     Middleware terugsturen statuscode/html -> admin en user middelware zetten
