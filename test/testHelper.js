@@ -1,10 +1,13 @@
 var app;
 var request;
+var agent;
 
 function makeGetRequest(route, statusCode, done){
-	request(app)
-		.get(route)
-		.set('Accept', 'application/json')
+	var req = request(app).get(route);
+
+	agent.attachCookies(req);
+	
+	req.set('Accept', 'application/json')
 		.expect(statusCode)
 		.end(function(err, res){
 
@@ -45,9 +48,10 @@ function makeDeleteRequest(route, body, statusCode, done){
 		});
 };
 
-module.exports = function(req, application){
+module.exports = function(req, application, superagent){
 	request = req;
 	app = application;
+	agent = superagent;
 	return {
         "makeGetRequest" : makeGetRequest,
         "makePostRequest" : makePostRequest,
