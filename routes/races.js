@@ -7,8 +7,8 @@ var async = require('async');
 
 
 /**
- * Gets a race.
- * @param {string} request - The request.
+ * Returns all the Races in Json based on the Acceptance header or otherwise renders the view.
+ * @param {string} request - The request with the potential Acceptance header.
  * @param {string} response - The reponse.
  */
 function getRaces(req, res){
@@ -34,6 +34,11 @@ function getRaces(req, res){
 	}
 }
 
+/**
+ * Add a new Race into the database.
+ * @param {string} request - The request with the parameters for a new Race.
+ * @param {string} response - The reponse.
+ */
 function addRace(req, res){
 	Race.add({
 		data: new Race(req.body),
@@ -47,6 +52,11 @@ function addRace(req, res){
 	});
 }
 
+/**
+ * Add a new Location into a Race with an _id.
+ * @param {string} request - The request with the parameters for a new Location.
+ * @param {string} response - The reponse.
+ */
 function addLocation(req, res){
 	Race.addLocation({
 		data: req.body,
@@ -60,6 +70,11 @@ function addLocation(req, res){
 	});
 }
 
+/**
+ * Updates a certain Race with the _id in the request body.
+ * @param {string} request - The request with the parameters for the be updated Race.
+ * @param {string} response - The reponse.
+ */
 function updateRace(req, res){
 	Race.update({
 		data: req.body,
@@ -73,6 +88,11 @@ function updateRace(req, res){
 	});
 }
 
+/**
+ * Deletes a certain Race with the _id in the request body.
+ * @param {string} request - The request with the parameters for the be deleted Race.
+ * @param {string} response - The reponse.
+ */
 function deleteRace(req, res){
 	Race.delete({
 		_id: req.params.id,
@@ -86,6 +106,11 @@ function deleteRace(req, res){
 	});
 }
 
+/**
+ * Deletes a User from a Race, both the User _id and Race _id are in the request body. 
+ * @param {string} request - The request with the parameters for the be deleted User in a certain Race.
+ * @param {string} response - The reponse.
+ */
 function deleteParticipantRace(req, res){
 	Race.removeParticipant({
 		data: req.body,
@@ -100,6 +125,11 @@ function deleteParticipantRace(req, res){
 	});
 }
 
+/**
+ * Deletes a Location from a Race, both the Location _id and Race _id are in the request body. 
+ * @param {string} request - The request with the parameters for the be deleted Location in a certain Race.
+ * @param {string} response - The reponse.
+ */
 function deleteLocationRace(req, res){
 	Race.removeLocation({
 		data: req.body,
@@ -114,6 +144,11 @@ function deleteLocationRace(req, res){
 	});
 }
 
+/**
+ * Lets a User with an _id join a Race with an _id. 
+ * @param {string} request - The request with the parameters for the be updated User in a certain Race.
+ * @param {string} response - The reponse.
+ */
 function joinRace(req, res){
 	Race.joinRace({
 		data: req.body,
@@ -133,9 +168,6 @@ function joinRace(req, res){
 		}
 	});
 }
-
-//users/me/races
-//races
 
 // Routing
 router.route('/').get(getRaces).post(addRace);

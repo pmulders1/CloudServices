@@ -5,6 +5,11 @@ var _ = require('underscore');
 var handleError;
 var async = require('async');
 
+/**
+ * Returns all the Locations in Json.
+ * @param {string} request - The request.
+ * @param {string} response - The reponse.
+ */
 function getLocations(req, res){
 	Location.get({
 		filter: req.query,
@@ -19,6 +24,11 @@ function getLocations(req, res){
 	});
 }
 
+/**
+ * Adds a User with an _id on a Location with an _id.
+ * @param {string} request - The request.
+ * @param {string} response - The reponse.
+ */
 function tagUser(req, res){
 	Location.tagUser({
 		data: req.body,

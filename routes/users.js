@@ -7,6 +7,11 @@ var handleError;
 var async = require('async');
 var auth = require('../modules/authen');
 
+/**
+ * Returns all the Users in Json based on the Acceptance header or otherwise renders the view.
+ * @param {string} request - The request with the potential Acceptance header.
+ * @param {string} response - The reponse.
+ */
 function getUsers(req, res){
 	if(req.headers.accept.indexOf("application/json") > -1){
 		User.get({
@@ -30,6 +35,11 @@ function getUsers(req, res){
 	}
 }
 
+/**
+ * Add a new User into the database.
+ * @param {string} request - The request with the parameters for a new User.
+ * @param {string} response - The reponse.
+ */
 function addUser(req, res){
 	User.add({
 		data: req.body,
@@ -43,6 +53,11 @@ function addUser(req, res){
 	});
 }
 
+/**
+ * Updates a certain User with the _id in the request body.
+ * @param {string} request - The request with the parameters for the be updated User.
+ * @param {string} response - The reponse.
+ */
 function updateUser(req, res){
 	User.update({
 		data: req.body,
@@ -56,6 +71,11 @@ function updateUser(req, res){
 	});
 }
 
+/**
+ * Deletes a certain User with the _id in the request body.
+ * @param {string} request - The request with the parameters for the be deleted User.
+ * @param {string} response - The reponse.
+ */
 function deleteUser(req, res){
 	User.delete({
 		_id: req.params.id,
@@ -69,8 +89,12 @@ function deleteUser(req, res){
 	});
 }
 
+/**
+ * Returns the Races which the User with an _id is enrolled.
+ * @param {string} request - The request with the parameters for the User.
+ * @param {string} response - The reponse.
+ */
 function getMeRaces(req, res){
-	
 	Race.getJoinedRaces({
 		_id: req.user._id,
 		callback: function(err, data){
