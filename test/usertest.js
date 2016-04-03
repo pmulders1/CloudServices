@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var should = require('chai').should();
 var mongoose = require('mongoose');
 var app = require('../app')(require("../config/testDatabase.js"));;
-var reqeustFunction; // = require('./testHelper')(request, app);
+var requestFunction; // = require('./testHelper')(request, app);
 var login = require('./loginHelper');
 
 var testuser = {
@@ -25,7 +25,7 @@ describe('Testing user route', function(){
         this.timeout(15000);
         login.login(request, app, function (loginAgent) {
             agent = loginAgent;
-            reqeustFunction = require("./testHelper")(request, app, agent);
+            requestFunction = require("./testHelper")(request, app, agent);
             done();
         }, adminuser);
     });
@@ -33,14 +33,14 @@ describe('Testing user route', function(){
 	after(function(done){
         this.timeout(5000);
         var user = mongoose.model('User');
-        user.remove({username: "gebruiker1"}, function(err) {
+        //user.remove({username: "StijnSmulders"}, function(err) {
             done();
-        });
+        //r});
     });
 
     it('should create new user', function(done){
         this.timeout(15000);
-        reqeustFunction.makePostRequest('/users', testuser, 201, function(err, res){
+        requestFunction.makePostRequest('/users', testuser, 201, function(err, res){
             if(err){ done(err); }
             expect(res.body.username).to.equal(testuser.username);
             expect(res.body.local.email).to.equal(testuser.email);
@@ -48,11 +48,47 @@ describe('Testing user route', function(){
         });
     });
 
+    it('should return list off users', function(done){
+        this.timeout(15000);
+        requestFunction.makeGetRequest('/users/', 201, function(err, res){
+            if(err){ return done(err); }
+            expect(res.body.data[0].name).to.equal(adminuser.name);
+            expect(res.body.data[0].hasStarted).to.equal(adminuser.hasStarted);
+            expect(res.body.data[1].name).to.equal(testuser.name);
+            expect(res.body.data[1].hasStarted).to.equal(testuser.hasStarted);
+            testuser = res.body.data[1];
+            done();
+        });
+    });
+
+    it('should update a user name', function(done){
+        this.timeout(15000);
+
+        testuser.username = "StijnSmulders";
+        testuser.email = "stino@avans.nl"
+
+        requestFunction.makePutRequest('/users/' + testuser._id, testuser, 201, function(err, res){
+            if(err){ return done(err); }
+            expect(res.body.ok).to.equal(1);
+            done();
+        });
+    });
+
     it('should return races that current user is participant', function(done){
         this.timeout(15000);
-        reqeustFunction.makeGetRequest('/users/me/races', 200, function(err, res){
+        requestFunction.makeGetRequest('/users/me/races', 200, function(err, res){
             if(err){ done(err); }
             expect(res.body.length).to.be.at.least(1);
+            done();
+        });
+    });
+
+    it('should delete a user', function(done){
+        this.timeout(15000);
+        requestFunction.makeDeleteRequest('/users/' + testuser._id, testuser, 201, function(err, res){
+            console.log(res.body);
+            if(err){ return done(err); }
+            expect(res.body.ok).to.equal(1);
             done();
         });
     });

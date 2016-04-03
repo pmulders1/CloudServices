@@ -153,7 +153,11 @@ schema.statics.addLocation = function(options){
 	location.name = options.data.place_name;
 	location.address = options.data.place_address;
 	location.save();
-	this.where('_id', options.data._id).update({$addToSet: { locations: location._id }}, options.callback);
+
+	this.findOne({_id: options.data._id}).populate('users').populate('locations').exec(function(err, doc){
+		doc.locations.push(location._id);
+		doc.save(options.callback);
+	});
 }
 /**
  * Static method to delete a certain Location from the Race schema.
