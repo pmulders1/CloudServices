@@ -4,7 +4,7 @@ var Race;
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-
+var auth = require('../modules/authen');
 
 /**
  * Returns all the Races in Json based on the Acceptance header or otherwise renders the view.
@@ -30,7 +30,7 @@ function getRaces(req, res){
 			}
 		});
 	}else{
-		res.render('races', { title: 'Races view' });
+		res.render('races', { title: 'Races view', user: req.user });
 	}
 }
 
@@ -170,17 +170,16 @@ function joinRace(req, res){
 }
 
 // Routing
-router.route('/').get(getRaces).post(addRace);
+router.route('/').get(getRaces).post(auth('admin'), addRace);
 
-router.route('/:id').get(getRaces).put(updateRace).delete(deleteRace);
+router.route('/:id').get(getRaces).put(auth('admin'), updateRace).delete(auth('admin'), deleteRace);
 
-router.route('/:id/participant/').delete(deleteParticipantRace).put(joinRace);
+router.route('/:id/participant/').delete(auth('admin'), deleteParticipantRace).put(joinRace);
 
-router.route('/:id/location').put(addLocation).delete(deleteLocationRace);
+router.route('/:id/location').put(auth('admin'), addLocation).delete(auth('admin'), deleteLocationRace);
 
 // Export
 module.exports = function (mongoose, errCallback){
-	console.log('Initializing races routing module');
 	Race = mongoose.model('Race');
 	handleError = errCallback;
 	return router;

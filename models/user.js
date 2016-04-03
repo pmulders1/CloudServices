@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-console.log('Initializing user schema');
+
 var schema = mongoose.Schema({
 	username : { type: String, required: [true, "Please enter a valid username"]},
 	roles: [{type: String }],

@@ -31,7 +31,7 @@ function getUsers(req, res){
 			}
 		});
 	}else{
-		res.render('users', { title: 'Users view' });
+		res.render('users', { title: 'Users view', user: req.user });
 	}
 }
 
@@ -108,15 +108,14 @@ function getMeRaces(req, res){
 }
 
 // Routing
-router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
+router.route('/:id').get(getUsers).put(auth('admin'), updateUser).delete(auth('admin'), deleteUser);
 
 router.route('/me/races').get(getMeRaces);
 
-router.route('/').get(getUsers).post(addUser);
+router.route('/').get(getUsers).post(auth('admin'), addUser);
 
 // Export
 module.exports = function (mongoose, errCallback){
-	console.log('Initializing user routing module');
 	User = mongoose.model('User');
 	Race = mongoose.model('Race');
 	handleError = errCallback;

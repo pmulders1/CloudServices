@@ -5,7 +5,9 @@ var agent;
 function makeGetRequest(route, statusCode, done){
 	var req = request(app).get(route);
 
-	agent.attachCookies(req);
+	if(agent){
+		agent.attachCookies(req);
+	}
 	
 	req.set('Accept', 'application/json')
 		.expect(statusCode)
@@ -16,9 +18,14 @@ function makeGetRequest(route, statusCode, done){
 	};
 
 function makePostRequest(route, body, statusCode, done){
-	request(app)
-		.post(route)
-		.set('Accept', 'application/json')
+	var req = request(app)
+		.post(route);
+
+		if(agent){
+			agent.attachCookies(req);
+		}
+
+		req.set('Accept', 'application/json')
 		.type('json')
 		.send(body)
 		.expect(statusCode)
@@ -28,9 +35,15 @@ function makePostRequest(route, body, statusCode, done){
 };
 
 function makePutRequest(route, body, statusCode, done){
-	request(app)
-		.put(route)
-		.type('json')
+	var req = request(app)
+		.put(route);
+
+		if(agent){
+			agent.attachCookies(req);
+		}
+
+
+		req.type('json')
 		.send(body)
 		.expect(statusCode)
 		.end(function(err, res){
@@ -39,8 +52,14 @@ function makePutRequest(route, body, statusCode, done){
 };
 
 function makeDeleteRequest(route, body, statusCode, done){
-	request(app)
-		.get(route)
+	var req = request(app)
+		.delete(route);
+
+		if(agent){
+			agent.attachCookies(req);
+		}
+
+		req.set('Accept', 'application/json')
 		.expect(statusCode)
 		.end(function(err, res){
 
@@ -56,6 +75,6 @@ module.exports = function(req, application, superagent){
         "makeGetRequest" : makeGetRequest,
         "makePostRequest" : makePostRequest,
         "makePutRequest" : makePutRequest,
-        "makeDeleteReqeust" : makeDeleteRequest
+        "makeDeleteRequest" : makeDeleteRequest
     }
 }

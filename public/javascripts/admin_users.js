@@ -48,9 +48,13 @@ function createUser(event){
 			$('#createForm').find('input:text').val('');
 			$('#crPassword').val('');
 		}, error: function(err){
-			$.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+			if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
 		}
 	});
 }
@@ -87,7 +91,13 @@ function updateUser(event){
 			$('#updateForm').find('input:text').val('');
         },
         error: function(err){
-        	utilities.showMessageBox('alert-danger', '#messageBox', err.statusText);
+        	if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
     });
 }
@@ -106,9 +116,13 @@ function deleteUser(event){
 			socket.emit('updated', data);
 		},
 		error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+			if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
 	});
 }
