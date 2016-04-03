@@ -5,7 +5,6 @@
     Middleware terugsturen statuscode/html -> admin en user middelware zetten
     Tests
     frontend - onnodige knoppen weglaten (OPRUIMEN!!!)
-    Documentatie
     
     EXTRA:
     Locatie taggen op GEO
@@ -41,7 +40,7 @@ module.exports = function(cnfg){
         config = require('./config/database');
         require('./models/fillTestData')(mongoose);
     }
-
+    
     // Data Access Layer
     if(mongoose.connection.readyState === 0){
         mongoose.connect(config.url);
@@ -71,6 +70,17 @@ module.exports = function(cnfg){
         res.json(message);
     };
 
+    // route middleware to make sure a user is logged in
+    function isLoggedIn(req, res, next) {
+        
+        // if user is authenticated in the session, carry on 
+        if (req.isAuthenticated())
+            return next();
+
+        // if they aren't redirect them to the home page
+        res.redirect('/');
+    }
+
     // required for passport
     app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
     app.use(passport.initialize());
@@ -85,9 +95,9 @@ module.exports = function(cnfg){
     // /Routes
 
     app.use('/',  routes);
-    app.use('/races', races);
-    app.use('/users', users);
-    app.use('/locations', locations);
+    app.use('/races', isLoggedIn, races);
+    app.use('/users', isLoggedIn, users);
+    app.use('/locations', isLoggedIn,locations);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

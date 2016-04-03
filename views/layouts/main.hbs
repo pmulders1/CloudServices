@@ -39,6 +39,11 @@
               {{/if}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              {{#if user}}
+              <li><a href="/logout">Logout</a></li>
+              {{/if}}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
               <li><a href="#" class="messageBox" id="messageBox"></a></li>
             </ul>
           </div><!--/.nav-collapse -->

@@ -54,7 +54,6 @@ router.route('/:id')
 
 // Export
 module.exports = function (mongoose, errCallback){
-	console.log('Initializing locations routing module');
 	Location = mongoose.model('Location');
 	handleError = errCallback;
 	return router;

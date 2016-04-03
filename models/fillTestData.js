@@ -33,9 +33,7 @@ function fillTestRaces(callback){
 			testData.forEach(function(race){
 				new Race(race).save(saveCallback);
 			});
-		} else{
-			console.log('Skipping create races testdata, allready present');
-		}
+		} 
 
 		if(callback){ callback(); }
 	});
@@ -46,7 +44,6 @@ function fillTestUsers(callback){
 		{
 			_id: userId,
 			username: "admin",
-			roles: ["admin"],
 			local: {
 				email: "admin@admin.com",
 				password: "admin"
@@ -67,11 +64,10 @@ function fillTestUsers(callback){
 				temp.username = user.username;
 				temp.local.email = user.local.email;
 				temp.local.password = temp.generateHash(user.local.password);
+				temp.roles.push('admin');
 				temp.save(saveCallback);
 			});
-		} else{
-			console.log('Skipping create user testdata, allready present');
-		}
+		} 
 
 		if(callback){ callback(); }
 	});
@@ -97,9 +93,7 @@ function fillTestLocations(callback){
 			testData.forEach(function(location){
 				new Location(location).save(saveCallback);
 			});
-		} else{
-			console.log('Skipping create locations testdata, allready present');
-		}
+		} 
 
 		if(callback){ callback(); }
 	});

@@ -144,7 +144,6 @@ function tagLocation(event){
 				id: $('#raceId').val()
 			}
 			socket.emit('updated', data);
-			console.log(data);
         },
         error: function(err){
         	utilities.showMessageBox('alert-danger', '#messageBox', err.responseJSON.message);

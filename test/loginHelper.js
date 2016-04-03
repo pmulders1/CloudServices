@@ -1,11 +1,7 @@
 var superagent = require('superagent');
 var agent = superagent.agent();
-var theAccount = {
-    "email": "admin@admin.com",
-    "password": "admin"
-};
 
-exports.login = function (request, app, done) {
+exports.login = function (request, app, done, theAccount) {
     request(app)
         .post('/login')
         .send(theAccount)
@@ -13,7 +9,6 @@ exports.login = function (request, app, done) {
             if (err) {
                 throw err;
             }
-            //console.log(res)
             agent.saveCookies(res);
             done(agent);
         });

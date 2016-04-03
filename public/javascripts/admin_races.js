@@ -162,9 +162,13 @@ function deleteRace(event){
     		$('#raceLocationsList').html('');
 		},
 		error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+            if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
 	});
 }
@@ -191,9 +195,13 @@ function deleteParticipantRace(event){
 			socket.emit('updated', data);
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+            if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
     });
 }
@@ -220,9 +228,13 @@ function deleteLocationRace(event){
 			socket.emit('updated', data);
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+            if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
     });
 }
@@ -257,9 +269,13 @@ function addToRace(event){
 			// Deze uit de lijst halen en andere lijst updaten.
         },
         error: function(err){
-            $.each(err.responseJSON.errors, function(index, item){
-				utilities.showMessageBox('alert-danger', '#messageBox', item.message);
-			});
+            if(!err.responseJSON){
+				utilities.showMessageBox('alert-danger', '#messageBox', JSON.parse(err.responseText).errors.message.message);
+			}else{
+				$.each(err.responseJSON.errors, function(index, item){
+					utilities.showMessageBox('alert-danger', '#messageBox', item.message);
+				});
+			}
         }
     });
 }
