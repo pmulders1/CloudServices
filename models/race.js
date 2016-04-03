@@ -1,3 +1,9 @@
+/**
+ * A Model for Race
+ * @module  Race
+ * @exports Race
+ */
+
 var mongoose = require('mongoose');
 
 //function init(mongoose){

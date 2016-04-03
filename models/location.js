@@ -1,3 +1,9 @@
+/**
+ * A Model for Location
+ * @module  Location
+ * @exports Location
+ */
+
 var mongoose = require('mongoose');
 
 console.log('Initializing location schema');

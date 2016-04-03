@@ -1,3 +1,8 @@
+/**
+ * A Model for User
+ * @module  User
+ * @exports User
+ */
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
