@@ -34,10 +34,22 @@ describe('Testing location route', function(){
         this.timeout(15000);
         requestFunction.makeGetRequest('/locations/', 201, function(err, res){
             if(err){ return done(err); }
-            expect(res.body[0].place_id).to.equal(testlocation.place_id);
-            expect(res.body[0].name).to.equal(testlocation.name);
-            expect(res.body[0].address).to.equal(testlocation.address);
-            testlocation = res.body[0];
+            expect(res.body.data[0].place_id).to.equal(testlocation.place_id);
+            expect(res.body.data[0].name).to.equal(testlocation.name);
+            expect(res.body.data[0].address).to.equal(testlocation.address);
+            testlocation = res.body.data[0];
+            done();
+        });
+    });
+    it('should return list paginated list off locations', function(done){
+        this.timeout(15000);
+        requestFunction.makeGetRequest('/locations/?pagenr=1&itemsPerPage=1', 201, function(err, res){
+            if(err){ return done(err); }
+            expect(res.body.pagenr).to.equal('1');
+            expect(res.body.itemsPerPage).to.equal('1');
+            expect(res.body.data[0].name).to.equal(testlocation.name);
+            expect(res.body.data[0].address).to.equal(testlocation.address);
+            expect(res.body.data[0].place_id).to.equal(testlocation.place_id);
             done();
         });
     });
