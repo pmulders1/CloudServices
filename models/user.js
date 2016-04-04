@@ -147,7 +147,11 @@ schema.statics.delete = function(options){
  * @param {string[]} options
  */
 schema.statics.update = function(options){
-	this.where('_id', options.data._id).update({$set: {username: options.data.username, 'local.email': options.data.email }}, options.callback);
+	this.findOne({_id: options.data._id}).exec(function(err, doc){
+		doc.username = options.data.username;
+		doc.local.email = options.data.email;
+		doc.save(options.callback);
+	});
 }
 // /Statics
 

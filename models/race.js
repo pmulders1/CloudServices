@@ -185,7 +185,10 @@ schema.statics.joinRace = function(options){
 		if(err){
 			options.error(err, data[0]);
 		} else {
-			race.where('_id', options.data._id).update({$addToSet: {users: options.data.userId}}, options.callback);
+			race.findOne({_id: options.data._id}).exec(function(err, doc){
+				doc.users.push(options.data.userId);
+				doc.save(options.callback);
+			});
 		}
 	});
 }

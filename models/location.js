@@ -68,7 +68,10 @@ schema.statics.tagUser = function(options){
 		if(err){
 			options.error(err, data);
 		}else{
-			loc.where('_id', options.data._id).update({$addToSet: {users: options.data.user_id}}, options.callback);
+			loc.findOne({_id: options.data._id}).exec(function(err, doc){
+				doc.users.push(options.data.user_id);
+				doc.save(options.callback);
+			});
 		}
 	});
 }

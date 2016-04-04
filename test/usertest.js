@@ -69,7 +69,8 @@ describe('Testing user route', function(){
 
         requestFunction.makePutRequest('/users/' + testuser._id, testuser, 201, function(err, res){
             if(err){ return done(err); }
-            expect(res.body.ok).to.equal(1);
+            expect(res.body.username).to.equal(testuser.username);
+            expect(res.body.local.email).to.equal(testuser.email);
             done();
         });
     });

@@ -79,7 +79,7 @@ describe('Testing race route', function(){
 			if(err){ return done(err); }
 			expect(res.body.name).to.equal(testrace.name);
 			expect(res.body.hasStarted).to.equal(testrace.hasStarted);
-			testrace = res.body
+			testrace = res.body;
 			done();
 		});
 	});
@@ -103,7 +103,8 @@ describe('Testing race route', function(){
 		};
 		requestFunction.makePutRequest('/races/' + testrace._id + '/participant/', data, 201, function(err, res){
 			if(err){ return done(err); }
-			expect(res.body.ok).to.equal(1);
+			expect(res.body.users.length).to.be.at.least(1);
+			expect(res.body.users).to.contain(testuser2._id);
 			done();
 		});
 	});
@@ -144,7 +145,7 @@ describe('Testing race route', function(){
 			if(err){ return done(err); }
 			expect(res.body.name).to.equal(testrace.name);
 			expect(res.body.hasStarted).to.equal(true);
-			testrace = res.body
+			testrace = res.body;
 			done();
 		});
 	});
@@ -158,8 +159,9 @@ describe('Testing race route', function(){
 		};
 		requestFunction.makePutRequest('/locations/' + data._id, data, 201, function(err, res){
 			if(err){ return done(err); }
-			
-			expect(res.body.ok).to.equal(1);
+			expect(res.body.users.length).to.be.at.least(1);
+			expect(res.body.users).to.contain(testuser2._id);
+			testlocation = res.body;
 			done();
 		});
 	});
