@@ -163,7 +163,17 @@ describe('Testing race route', function(){
 			done();
 		});
 	});
-
+	it('should return list paginated list off locations', function(done){
+        this.timeout(15000);
+        requestFunction.makeGetRequest('/locations/?pagenr=2&itemsPerPage=1', 201, function(err, res){
+            if(err){ return done(err); }
+            console.log(res.body);
+            expect(res.body[0].name).to.equal(testlocation.name);
+            expect(res.body[0].address).to.equal(testlocation.address);
+            expect(res.body[0].place_id).to.equal(testlocation.place_id);
+            done();
+        });
+    });
 	it('should delete a location from a race', function(done){
 		this.timeout(15000);
 		var data = {
@@ -173,6 +183,15 @@ describe('Testing race route', function(){
 		requestFunction.makeDeleteRequest('/races/' + testrace._id + '/location/', data, 201, function(err, res){
 			if(err){ return done(err); }
 			expect(res.body.ok).to.equal(1);
+			done();
+		});
+	});
+	it('should return list paginated list off races', function(done){
+		this.timeout(15000);
+		requestFunction.makeGetRequest('/races/?pagenr=2&itemsPerPage=1', 201, function(err, res){
+			if(err){ return done(err); }
+			expect(res.body.data[0].name).to.equal(testrace.name);
+            expect(res.body.data[0].hasStarted).to.equal(testrace.hasStarted);
 			done();
 		});
 	});

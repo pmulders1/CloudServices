@@ -82,11 +82,18 @@ describe('Testing user route', function(){
             done();
         });
     });
-
+    it('should return list paginated list off users', function(done){
+        this.timeout(15000);
+        requestFunction.makeGetRequest('/users/?pagenr=2&itemsPerPage=1', 201, function(err, res){
+            if(err){ return done(err); }
+            expect(res.body.data[0].name).to.equal(testuser.name);
+            expect(res.body.data[0].hasStarted).to.equal(testuser.hasStarted);
+            done();
+        });
+    });
     it('should delete a user', function(done){
         this.timeout(15000);
         requestFunction.makeDeleteRequest('/users/' + testuser._id, testuser, 201, function(err, res){
-            console.log(res.body);
             if(err){ return done(err); }
             expect(res.body.ok).to.equal(1);
             done();
