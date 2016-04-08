@@ -108,11 +108,11 @@ function getMeRaces(req, res){
 }
 
 // Routing
-router.route('/:id').get(getUsers).put(updateUser).delete(auth('admin'), deleteUser);
+router.route('/:id').get(getUsers).put(updateUser).delete(deleteUser);
 
 router.route('/me/races').get(getMeRaces);
 
-router.route('/').get(getUsers).post(auth('admin'), addUser);
+router.route('/').get(getUsers).post(addUser);
 
 // Export
 module.exports = function (mongoose, errCallback){
