@@ -13,7 +13,6 @@ var auth = require('../modules/authen');
  * @param {string} response - The reponse.
  */
 function getUsers(req, res){
-	if(req.headers.accept.indexOf("application/json") > -1){
 		User.get({
 			filter: req.query,
 			callback: function(err, data){
@@ -30,9 +29,6 @@ function getUsers(req, res){
 				}
 			}
 		});
-	}else{
-		res.render('users', { title: 'Users view', user: req.user });
-	}
 }
 
 /**
