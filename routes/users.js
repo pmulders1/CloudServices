@@ -108,7 +108,7 @@ function getMeRaces(req, res){
 }
 
 // Routing
-router.route('/:id').get(getUsers).put(auth('admin'), updateUser).delete(auth('admin'), deleteUser);
+router.route('/:id').get(getUsers).put(updateUser).delete(auth('admin'), deleteUser);
 
 router.route('/me/races').get(getMeRaces);
 

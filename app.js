@@ -96,7 +96,7 @@ module.exports = function(cnfg){
 
     app.use('/',  routes);
     app.use('/races', isLoggedIn, races);
-    app.use('/users', isLoggedIn, users);
+    app.use('/users', users);
     app.use('/locations', isLoggedIn,locations);
 
     // catch 404 and forward to error handler
